@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>3D Spherical Coordinate System — Vector & Differential Simulator (All 8 Octants)</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #eef2f5;
+    color: #222;
+}
+
+body {
+    display: flex;
+}
+
+/* ================= SIDEBAR ================= */
+
+#sidebar {
+    width: 340px;
+    min-width: 340px;
+    background: #ffffff;
+    padding: 18px;
+    overflow-y: auto;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+    z-index: 5;
+    border-right: 1px solid #ddd;
+}
+
+h1 {
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: #0077aa;
+}
+
+h2 {
+    font-size: 14px;
+    margin: 16px 0 9px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+/* Information box */
+
+.note {
+    background: #f4f6f8;
+    padding: 10px;
+    border-left: 4px solid #ff2e63;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #333;
+}
+
+/* Controls */
+
+.row {
+    display: grid;
+    grid-template-columns: 58px 1fr 62px;
+    gap: 7px;
+    align-items: center;
+    margin: 9px 0;
+}
+
+label {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #0077aa;
+}
+
+input[type="number"] {
+    width: 62px;
+    background: #f9f9f9;
+    color: #222;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    text-align: center;
+}
+
+/* Buttons */
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background: #e0e0e0;
+    color: #333;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #d0d0d0;
+}
+
+.primary {
+    background: #0077aa;
+    color: white;
+}
+
+.primary:hover {
+    background: #005588;
+}
+
+/* Legend */
+
+.legend {
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.swatch {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    margin-right: 7px;
+}
+
+/* ================= 3D STAGE ================= */
+
+#stage {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    background: #f8fafc;
+}
+
+#threeCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ================= READOUT ================= */
+
+#readout {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+
+    background: rgba(255, 255, 255, 0.85);
+    color: #222;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    padding: 12px 15px;
+    border-radius: 8px;
+
+    min-width: 250px;
+
+    pointer-events: none;
+
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+#readout b {
+    font-size: 14px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #e2e8f0;
+    color: #334155;
+    margin-right: 4px;
+}
+
+/* Responsive */
+
+@media(max-width:800px) {
+    #sidebar {
+        width: 290px;
+        min-width: 290px;
+    }
+    .row {
+        grid-template-columns: 52px 1fr 58px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside id="sidebar">
+
+    <h1>
+        3D Spherical Coordinate System
+    </h1>
+
+    <!-- Vector calculus information -->
+
+    <div class="note">
+
+        <b>Vector:</b>
+
+        A =
+        A<sub>r</sub>a<sub>r</sub>
+        +
+        A<sub>θ</sub>a<sub>θ</sub>
+        +
+        A<sub>ϕ</sub>a<sub>ϕ</sub>
+
+        <br>
+
+        <b>Differential:</b>
+
+        dl =
+        dr a<sub>r</sub>
+        +
+        r dθ a<sub>θ</sub>
+        +
+        r sinθ dϕ a<sub>ϕ</sub>
+
+        <br>
+
+        <b>Points (Spherical):</b>
+
+        P(r,θ,φ)
+        →
+        P′(r+dr, θ+dθ, φ+dφ)
+
+    </div>
+
+
+    <!-- =====================================================
+         VECTOR A (SPHERICAL - ALL 8 OCTANTS)
+    ====================================================== -->
+
+    <h2>
+        Vector A — Point P (Spherical)
+    </h2>
+
+    <div class="row">
+
+        <label style="color:#d93829">
+            r
+        </label>
+
+        <input
+            id="rangeR"
+            type="range"
+            min="0"
+            max="6"
+            step="0.1"
+            value="4.0"
+        >
+
+        <input
+            id="numR"
+            type="number"
+            min="0"
+            max="6"
+            step="0.1"
+            value="4.0"
+        >
+
+    </div>
+
+    <div class="row">
+
+        <label style="color:#1e8e3e">
+            θ (°)
+        </label>
+
+        <input
+            id="rangeTheta"
+            type="range"
+            min="0"
+            max="180"
+            step="1"
+            value="60"
+        >
+
+        <input
+            id="numTheta"
+            type="number"
+            min="0"
+            max="180"
+            step="1"
+            value="60"
+        >
+
+    </div>
+
+    <div class="row">
+
+        <label style="color:#1a73e8">
+            φ (°)
+        </label>
+
+        <input
+            id="rangePhi"
+            type="range"
+            min="-180"
+            max="180"
+            step="1"
+            value="45"
+        >
+
+        <input
+            id="numPhi"
+            type="number"
+            min="-180"
+            max="180"
+            step="1"
+            value="45"
+        >
+
+    </div>
+
+
+    <!-- =====================================================
+         DIFFERENTIAL
+    ====================================================== -->
+
+    <h2>
+        Differential dl — P → P′
+    </h2>
+
+    <div class="row">
+
+        <label>
+            dr
+        </label>
+
+        <input
+            id="rangeDR"
+            type="range"
+            min="-3"
+            max="3"
+            step="0.1"
+            value="1.0"
+        >
+
+        <input
+            id="numDR"
+            type="number"
+            min="-3"
+            max="3"
+            step="0.1"
+            value="1.0"
+        >
+
+    </div>
+
+    <div class="row">
+
+        <label>
+            dθ (°)
+        </label>
+
+        <input
+            id="rangeDTheta"
+            type="range"
+            min="-90"
+            max="90"
+            step="1"
+            value="5"
+        >
+
+        <input
+            id="numDTheta"
+            type="number"
+            min="-90"
+            max="90"
+            step="1"
+            value="5"
+        >
+
+    </div>
+
+    <div class="row">
+
+        <label>
+            dφ (°)
+        </label>
+
+        <input
+            id="rangeDPhi"
+            type="range"
+            min="-90"
+            max="90"
+            step="1"
+            value="5"
+        >
+
+        <input
+            id="numDPhi"
+            type="number"
+            min="-90"
+            max="90"
+            step="1"
+            value="5"
+        >
+
+    </div>
+
+
+    <!-- =====================================================
+         CAMERA CONTROLS
+    ====================================================== -->
+
+    <h2>
+        Camera
+    </h2>
+
+    <div class="buttons">
+
+        <button id="left">
+            Rotate ↺
+        </button>
+
+        <button id="right">
+            Rotate ↻
+        </button>
+
+    </div>
+
+    <div
+        class="buttons"
+        style="margin-top:8px"
+    >
+
+        <button id="top">
+            Top View
+        </button>
+
+        <button
+            id="reset"
+            class="primary"
+        >
+            Reset
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         LEGEND
+    ====================================================== -->
+
+    <h2>
+        Legend
+    </h2>
+
+    <div class="legend">
+
+        <div>
+            <span
+                class="swatch"
+                style="background:#d93829"
+            ></span>
+            Radial direction / a<sub>r</sub>
+        </div>
+
+        <div>
+            <span
+                class="swatch"
+                style="background:#1e8e3e"
+            ></span>
+            Polar direction / a<sub>θ</sub>
+        </div>
+
+        <div>
+            <span
+                class="swatch"
+                style="background:#1a73e8"
+            ></span>
+            Azimuthal direction / a<sub>ϕ</sub>
+        </div>
+
+        <div>
+            <span
+                class="swatch"
+                style="background:#b800c4"
+            ></span>
+            Vector A (O → P)
+        </div>
+
+        <div>
+            <span
+                class="swatch"
+                style="background:#e67700"
+            ></span>
+            Vector dl (P → P′)
+        </div>
+
+        <div>
+            <span
+                class="swatch"
+                style="background:#888"
+            ></span>
+            Dashed lines = projections & spherical wireframe
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     3D GRAPHICAL AREA
+========================================================= -->
+
+<main id="stage">
+
+    <canvas id="threeCanvas"></canvas>
+
+    <!-- Live coordinate display -->
+
+    <div id="readout">
+
+        <b>
+            Live Coordinates
+        </b>
+
+        <br>
+
+        <span class="badge">
+            P (Sph)
+        </span>
+
+        (<span id="pvalSph">4.0, 60°, 45°</span>)
+
+        <br>
+
+        <span class="badge">
+            P (Cart)
+        </span>
+
+        (<span id="pvalCart">1.41, 1.41, 2.00</span>)
+
+        <br>
+
+        <span class="badge">
+            P′ (Sph)
+        </span>
+
+        (<span id="ppval">5.0, 65°, 50°</span>)
+
+        <br>
+
+        <span class="badge">
+            Δ
+        </span>
+
+        (<span id="deltaval">0.59, 0.59, 0.50</span>)
+
+        <br>
+
+        <span class="badge">
+            dℓ
+        </span>
+
+        = <span id="dlval">0.94</span>
+
+        <br>
+
+        <span class="badge">
+            dV
+        </span>
+
+        = <span id="dvval">0.00</span>
+
+        <br>
+
+        <span class="badge">
+            dS
+        </span>
+
+        = <span id="dsval">0.00, 0.00, 0.00</span>
+
+        <br>
+
+        <span class="badge">
+            A
+        </span>
+
+        |A| = <span id="alen">4.00</span>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     THREE.JS SCRIPTS
+========================================================= -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+
+<script>
+
+/* =========================================================
+   SCENE & RENDERER SETUP (LIGHT BACKGROUND)
+========================================================= */
+
+const canvas = document.getElementById("threeCanvas");
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf8fafc);
+
+const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);
+camera.position.set(12, 10, 14);
+
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, 0, 0);
+
+/* =========================================================
+   LIGHTING
+========================================================= */
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+const light = new THREE.DirectionalLight(0xffffff, 0.8);
+light.position.set(8, 12, 10);
+scene.add(light);
+
+
+/* =========================================================
+   AXIS FUNCTION
+========================================================= */
+
+function axis(direction, origin, color) {
+    const arrowHelper = new THREE.ArrowHelper(
+        new THREE.Vector3(...direction),
+        new THREE.Vector3(...origin),
+        8,
+        color,
+        0.5,
+        0.28
+    );
+    scene.add(arrowHelper);
+    return arrowHelper;
+}
+
+// Reference Cartesian Axes
+axis([1,0,0], [-8,0,0], 0xd93829);
+axis([0,1,0], [0,-8,0], 0x1e8e3e);
+axis([0,0,1], [0,0,-8], 0x1a73e8);
+
+
+/* =========================================================
+   GRIDS
+========================================================= */
+
+const gridXY = new THREE.GridHelper(16, 16, 0xbbbbbb, 0xe2e8f0);
+scene.add(gridXY);
+
+const gridXZ = new THREE.GridHelper(16, 16, 0xcccccc, 0xe2e8f0);
+gridXZ.rotation.x = Math.PI / 2;
+scene.add(gridXZ);
+
+const gridYZ = new THREE.GridHelper(16, 16, 0xcccccc, 0xe2e8f0);
+gridYZ.rotation.z = Math.PI / 2;
+scene.add(gridYZ);
+
+
+/* =========================================================
+   TEXT LABEL FUNCTION
+========================================================= */
+
+function label(text, position, color) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 128;
+    const ctx = canvas.getContext("2d");
+    ctx.font = "bold 72px Arial";
+    ctx.fillStyle = color;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, 128, 64);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true
+    }));
+    sprite.position.set(...position);
+    sprite.scale.set(1.8, 0.9, 1);
+    scene.add(sprite);
+}
+
+label("X", [8.5,0,0], "#d93829");
+label("Y", [0,8.5,0], "#1e8e3e");
+label("Z", [0,0,8.5], "#1a73e8");
+
+
+/* =========================================================
+   DYNAMIC GROUP
+========================================================= */
+
+let group = new THREE.Group();
+scene.add(group);
+
+
+/* =========================================================
+   HELPER SHAPES
+========================================================= */
+
+function arrow(from, to, color, head = 0.35, width = 0.08) {
+    const f = new THREE.Vector3(...from);
+    const t = new THREE.Vector3(...to);
+    const direction = t.clone().sub(f);
+    const length = direction.length();
+    if (length < 0.0001) return;
+    const a = new THREE.ArrowHelper(
+        direction.normalize(),
+        f,
+        length,
+        color,
+        head,
+        width
+    );
+    group.add(a);
+    return a;
+}
+
+function line(a, b, color = 0x666666, dashed = true) {
+    const geometry = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(...a),
+        new THREE.Vector3(...b)
+    ]);
+
+    let material;
+    if (dashed) {
+        material = new THREE.LineDashedMaterial({
+            color: color,
+            dashSize: 0.18,
+            gapSize: 0.12,
+            transparent: true,
+            opacity: 0.7
+        });
+    } else {
+        material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.7 });
+    }
+
+    const l = new THREE.Line(geometry, material);
+    if (dashed) {
+        l.computeLineDistances();
+    }
+    group.add(l);
+    return l;
+}
+
+function point(position, color, size = 0.16, labelText = "") {
+    const halo = new THREE.Mesh(
+        new THREE.SphereGeometry(size + 0.08, 20, 20),
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.22 })
+    );
+    halo.position.set(...position);
+    halo.renderOrder = 20;
+    group.add(halo);
+
+    const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(size, 20, 20),
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.95 })
+    );
+    mesh.position.set(...position);
+    mesh.renderOrder = 30;
+    group.add(mesh);
+
+    if (labelText) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 256;
+        canvas.height = 128;
+        const ctx = canvas.getContext("2d");
+        ctx.font = "bold 44px Arial";
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(labelText, 128, 64);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            depthWrite: false
+        }));
+        sprite.position.set(position[0], position[1], position[2] + 0.35);
+        sprite.scale.set(1.0, 0.5, 1);
+        group.add(sprite);
+    }
+}
+
+
+/* =========================================================
+   UPDATE GRAPHICS (SPHERICAL COORDINATE SYSTEM)
+========================================================= */
+
+function update() {
+
+    const r = +document.getElementById("numR").value || 0;
+    const theta = +document.getElementById("numTheta").value || 0;
+    const phi = +document.getElementById("numPhi").value || 0;
+
+    const dr = +document.getElementById("numDR").value || 0;
+    const dtheta = +document.getElementById("numDTheta").value || 0;
+    const dphi = +document.getElementById("numDPhi").value || 0;
+
+    const thetaRad = (theta * Math.PI) / 180;
+    const phiRad = (phi * Math.PI) / 180;
+    const dthetaRad = (dtheta * Math.PI) / 180;
+    const dphiRad = (dphi * Math.PI) / 180;
+
+    const x = r * Math.sin(thetaRad) * Math.cos(phiRad);
+    const y = r * Math.sin(thetaRad) * Math.sin(phiRad);
+    const z = r * Math.cos(thetaRad);
+
+    const r2 = r + dr;
+    const theta2 = thetaRad + dthetaRad;
+    const phi2 = phiRad + dphiRad;
+
+    const x2 = r2 * Math.sin(theta2) * Math.cos(phi2);
+    const y2 = r2 * Math.sin(theta2) * Math.sin(phi2);
+    const z2 = r2 * Math.cos(theta2);
+
+    const P = [x, y, z];
+    const P2 = [x2, y2, z2];
+    const origin = [0, 0, 0];
+
+    group.clear();
+
+    if (r > 0.1) {
+        const sphereMesh = new THREE.Mesh(
+            new THREE.SphereGeometry(r, 32, 16),
+            new THREE.MeshBasicMaterial({
+                color: 0x0077aa,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            })
+        );
+        group.add(sphereMesh);
+    }
+
+    arrow(origin, P, 0xb800c4, 0.45, 0.11);
+    point(P, 0xb800c4, 0.16, "P");
+
+    arrow(P, P2, 0xe67700, 0.42, 0.1);
+    point(P2, 0xe67700, 0.22, "P′");
+
+    const inter1 = [
+        (r + dr) * Math.sin(thetaRad) * Math.cos(phiRad),
+        (r + dr) * Math.sin(thetaRad) * Math.sin(phiRad),
+        (r + dr) * Math.cos(thetaRad)
+    ];
+    const inter2 = [
+        (r + dr) * Math.sin(thetaRad + dthetaRad) * Math.cos(phiRad),
+        (r + dr) * Math.sin(thetaRad + dthetaRad) * Math.sin(phiRad),
+        (r + dr) * Math.cos(thetaRad + dthetaRad)
+    ];
+
+    arrow(P, inter1, 0xd93829, 0.18, 0.055);
+    line(inter1, inter2, 0x1e8e3e);
+    arrow(inter1, inter2, 0x1e8e3e, 0.18, 0.055);
+    arrow(inter2, P2, 0x1a73e8, 0.18, 0.055);
+
+    const dlMag = Math.hypot(x2 - x, y2 - y, z2 - z);
+    const dV = Math.abs(r * r * Math.sin(thetaRad) * dr * dthetaRad * dphiRad);
+    const dsR = Math.abs(r * r * Math.sin(thetaRad) * dthetaRad * dphiRad);
+    const dsTheta = Math.abs(r * Math.sin(thetaRad) * dr * dphiRad);
+    const dsPhi = Math.abs(r * dr * dthetaRad);
+
+    document.getElementById("pvalSph").textContent =
+        `${r.toFixed(1)}, ${theta.toFixed(0)}°, ${phi.toFixed(0)}°`;
+
+    document.getElementById("pvalCart").textContent =
+        `${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}`;
+
+    document.getElementById("ppval").textContent =
+        `${r2.toFixed(1)}, ${(theta + dtheta).toFixed(0)}°, ${(phi + dphi).toFixed(0)}°`;
+
+    document.getElementById("deltaval").textContent =
+        `${(x2 - x).toFixed(3)}, ${(y2 - y).toFixed(3)}, ${(z2 - z).toFixed(3)}`;
+
+    document.getElementById("dlval").textContent =
+        dlMag.toFixed(3);
+
+    document.getElementById("dvval").textContent =
+        dV.toFixed(3);
+
+    document.getElementById("dsval").textContent =
+        `${dsR.toFixed(3)}, ${dsTheta.toFixed(3)}, ${dsPhi.toFixed(3)}`;
+
+    document.getElementById("alen").textContent =
+        r.toFixed(2);
+}
+
+
+/* =========================================================
+   EVENT LISTENERS & BINDINGS
+========================================================= */
+
+const pairs = [
+    ["rangeR","numR"],
+    ["rangeTheta","numTheta"],
+    ["rangePhi","numPhi"],
+    ["rangeDR","numDR"],
+    ["rangeDTheta","numDTheta"],
+    ["rangeDPhi","numDPhi"]
+];
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+canvas.style.cursor = "crosshair";
+canvas.addEventListener("click", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+    ) {
+        return;
+    }
+
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    const hitPoint = new THREE.Vector3();
+    raycaster.ray.intersectPlane(plane, hitPoint);
+
+    if (hitPoint) {
+        const px = hitPoint.x;
+        const py = hitPoint.y;
+        const pz = hitPoint.z;
+
+        const newR = Math.min(6, Math.hypot(px, py, pz));
+        const horizontalDist = Math.hypot(px, py);
+        
+        let newTheta = 0;
+        if (newR > 0.0001) {
+            newTheta = Math.acos(Math.max(-1, Math.min(1, pz / newR))) * (180 / Math.PI);
+        }
+        
+        const newPhi = (((Math.atan2(py, px) * 180 / Math.PI) + 540) % 360) - 180;
+
+        document.getElementById("numR").value = newR.toFixed(1);
+        document.getElementById("rangeR").value = newR.toFixed(1);
+        document.getElementById("numTheta").value = newTheta.toFixed(0);
+        document.getElementById("rangeTheta").value = newTheta.toFixed(0);
+        document.getElementById("numPhi").value = newPhi.toFixed(0);
+        document.getElementById("rangePhi").value = newPhi.toFixed(0);
+        update();
+    }
+});
+
+pairs.forEach(([rangeID, numberID]) => {
+    const range = document.getElementById(rangeID);
+    const number = document.getElementById(numberID);
+
+    range.addEventListener("input", function() {
+        number.value = range.value;
+        update();
+    });
+
+    number.addEventListener("input", function() {
+        range.value = number.value;
+        update();
+    });
+});
+
+function resize() {
+    const stage = document.getElementById("stage");
+    const width = stage.clientWidth;
+    const height = stage.clientHeight;
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+}
+
+window.addEventListener("resize", resize);
+
+document.getElementById("left").addEventListener("click", function() {
+    camera.position.applyAxisAngle(new THREE.Vector3(0,1,0), 0.22);
+    controls.update();
+});
+
+document.getElementById("right").addEventListener("click", function() {
+    camera.position.applyAxisAngle(new THREE.Vector3(0,1,0), -0.22);
+    controls.update();
+});
+
+document.getElementById("top").addEventListener("click", function() {
+    camera.position.set(0, 18, 0.01);
+    controls.target.set(0, 0, 0);
+    controls.update();
+});
+
+document.getElementById("reset").addEventListener("click", function() {
+    camera.position.set(12, 10, 14);
+    controls.target.set(0, 0, 0);
+    controls.update();
+});
+
+
+/* =========================================================
+   INIT & LOOP
+========================================================= */
+
+resize();
+update();
+
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
