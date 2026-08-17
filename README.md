@@ -12,6 +12,4 @@ Dr.S.Murugaveni
 Dr.G.Elavel Visuvanathan 
 
 Student Coordinators
-Ms Prajna Sree Gudivada  
-Ms Peyla Navya Dhara Manikanta 
-Ms Bramhani Sirimandla 
+Ms Prajna Sree Gudivada  Ms Peyla Navya Dhara Manikanta Ms Bramhani Sirimandla 
