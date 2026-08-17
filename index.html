@@ -1,315 +1,482 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Electromagnetic Field Theory</title>
+    <title>Faraday's Law</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #eef2ff, #e0f2fe);
-            color: #0f172a;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-        }
-
-        .header {
-            text-align: center;
-            background: white;
-            padding: 35px 20px;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 38px;
-            color: #1d4ed8;
-        }
-
-        .header p {
-            font-size: 17px;
-            color: #475569;
-            margin-top: 12px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin: 30px 0 20px;
-            color: #1e3a8a;
-        }
-
-        .topics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            transition: 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-        }
-
-        .card h3 {
-            color: #2563eb;
-            margin-top: 0;
-        }
-
-        .card p {
-            color: #64748b;
-            min-height: 45px;
-        }
-
-        .card a {
-            display: inline-block;
-            text-decoration: none;
-            background: #2563eb;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .card a:hover {
-            background: #1d4ed8;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 35px;
-            color: #64748b;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .container {
-                padding: 20px 12px;
-            }
-        }
-    </style>
-
+    <!-- Connect external CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+<div class="project-box">
 
-    <!-- Main Header -->
+    <h1>Faraday's Law of Electromagnetic Induction</h1>
 
-    <div class="header">
+    <p class="lead">
+        Explore how a changing magnetic flux produces an induced EMF.
+    </p>
 
-        <h1>Electromagnetic Field Theory</h1>
+    <!-- Introduction -->
+    <div class="intro-card">
+
+        <h2>Faraday's Law</h2>
 
         <p>
-            Interactive learning and visualization of important
-            concepts in Electromagnetic Field Theory.
+            Faraday's law states that the induced electromotive force
+            in a circuit is proportional to the rate of change of
+            magnetic flux through the circuit.
+        </p>
+
+        <div class="formula-box">
+            ε = −N dΦ/dt
+        </div>
+
+        <ul class="explanation-list">
+            <li>ε = Induced EMF</li>
+            <li>N = Number of turns in the coil</li>
+            <li>Φ = Magnetic flux</li>
+            <li>The negative sign represents Lenz's law.</li>
+        </ul>
+
+    </div>
+
+
+    <!-- Controls -->
+    <div class="demo-controls">
+
+        <h2>Interactive Demonstration</h2>
+
+        <label for="magneticField">
+            Magnetic Field Strength (B)
+        </label>
+
+        <input
+            type="range"
+            id="magneticField"
+            min="0"
+            max="100"
+            value="50"
+        >
+
+        <p id="fieldValue" class="status-text">
+            Magnetic Field: 50%
+        </p>
+
+
+        <label for="coilTurns">
+            Number of Coil Turns
+        </label>
+
+        <input
+            type="range"
+            id="coilTurns"
+            min="1"
+            max="20"
+            value="10"
+        >
+
+        <p id="turnValue" class="status-text">
+            Turns: 10
         </p>
 
     </div>
 
 
-    <!-- Coordinate Systems -->
+    <!-- Visualisation -->
+    <div class="visual-section">
 
-    <h2 class="section-title">
-        Coordinate Systems
-    </h2>
+        <div class="visual-card">
 
-    <div class="topics">
+            <h3>Magnetic Field and Coil</h3>
 
-        <div class="card">
+            <svg
+                class="flux-svg"
+                viewBox="0 0 500 300"
+                xmlns="http://www.w3.org/2000/svg"
+            >
 
-            <h3>Cartesian Coordinates</h3>
+                <!-- Magnet -->
+                <rect
+                    x="40"
+                    y="105"
+                    width="90"
+                    height="90"
+                    rx="10"
+                    fill="#3b82f6"
+                />
 
-            <p>
-                Explore the three-dimensional Cartesian coordinate system.
+                <text
+                    x="85"
+                    y="160"
+                    text-anchor="middle"
+                    fill="white"
+                    font-size="30"
+                    font-weight="bold"
+                >
+                    N
+                </text>
+
+
+                <rect
+                    x="370"
+                    y="105"
+                    width="90"
+                    height="90"
+                    rx="10"
+                    fill="#ef4444"
+                />
+
+                <text
+                    x="415"
+                    y="160"
+                    text-anchor="middle"
+                    fill="white"
+                    font-size="30"
+                    font-weight="bold"
+                >
+                    S
+                </text>
+
+
+                <!-- Magnetic field lines -->
+                <path
+                    class="field-line"
+                    d="M130 125 C210 70 290 70 370 125"
+                />
+
+                <path
+                    class="field-line"
+                    d="M130 150 C210 110 290 110 370 150"
+                />
+
+                <path
+                    class="field-line"
+                    d="M130 175 C210 230 290 230 370 175"
+                />
+
+                <path
+                    class="field-line secondary"
+                    d="M130 140 C210 95 290 95 370 140"
+                />
+
+                <path
+                    class="field-line secondary"
+                    d="M130 165 C210 205 290 205 370 165"
+                />
+
+                <!-- Coil -->
+                <ellipse
+                    id="coil"
+                    cx="250"
+                    cy="150"
+                    rx="55"
+                    ry="95"
+                    fill="none"
+                    stroke="#1d4ed8"
+                    stroke-width="8"
+                />
+
+                <ellipse
+                    cx="250"
+                    cy="150"
+                    rx="40"
+                    ry="80"
+                    fill="none"
+                    stroke="#60a5fa"
+                    stroke-width="4"
+                />
+
+            </svg>
+
+            <p class="visual-caption">
+                Changing magnetic field through the coil produces induced EMF.
             </p>
-
-            <a href="cartesian.html">
-                Open Visualization
-            </a>
 
         </div>
 
 
-        <div class="card">
+        <!-- Galvanometer -->
+        <div class="visual-card">
 
-            <h3>Cylindrical Coordinates</h3>
+            <h3>Galvanometer</h3>
 
-            <p>
-                Understand cylindrical coordinate representation and visualization.
+            <div class="galvanometer">
+
+                <div class="galvanometer-face">
+
+                    <div
+                        class="galvanometer-needle"
+                        id="needle"
+                    ></div>
+
+                </div>
+
+            </div>
+
+            <p class="visual-caption" id="currentStatus">
+                Induced current: Moderate
             </p>
-
-            <a href="cylindrical.html">
-                Open Visualization
-            </a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Spherical Coordinates</h3>
-
-            <p>
-                Explore spherical coordinates and their geometric representation.
-            </p>
-
-            <a href="spherical.html">
-                Open Visualization
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- Electromagnetic Laws -->
-
-    <h2 class="section-title">
-        Electromagnetic Laws
-    </h2>
-
-    <div class="topics">
-
-        <div class="card">
-
-            <h3>Coulomb's Law</h3>
-
-            <p>
-                Interactive visualization and calculation of electric force
-                between charges.
-            </p>
-
-            <a href="coulomb.html">
-                Open Coulomb's Law
-            </a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Faraday's Law</h3>
-
-            <p>
-                Explore electromagnetic induction, magnetic flux and induced EMF.
-            </p>
-
-            <a href="Faraday.html">
-                Open Faraday's Law
-            </a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Gauss's Law</h3>
-
-            <p>
-                Learn about electric flux and the relationship between
-                charge and electric field.
-            </p>
-
-            <a href="gauss.html">
-                Open Gauss's Law
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- More Topics -->
-
-    <h2 class="section-title">
-        More Topics
-    </h2>
-
-    <div class="topics">
-
-        <div class="card">
-
-            <h3>Ampere's Law</h3>
-
-            <p>
-                Study the relationship between electric current and magnetic fields.
-            </p>
-
-            <a href="ampere.html">
-                Open Topic
-            </a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Biot-Savart Law</h3>
-
-            <p>
-                Explore the magnetic field produced by a current-carrying conductor.
-            </p>
-
-            <a href="biot-savart.html">
-                Open Topic
-            </a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Electromagnetic Waves</h3>
-
-            <p>
-                Learn about electromagnetic wave propagation and field interaction.
-            </p>
-
-            <a href="waves.html">
-                Open Topic
-            </a>
 
         </div>
 
     </div>
 
 
-    <div class="footer">
+    <!-- Calculator -->
+    <div class="calculator-card">
+
+        <h3>Faraday's Law Calculator</h3>
 
         <p>
-            Electromagnetic Field Theory | Interactive Learning Project
+            Calculate the induced EMF using:
+        </p>
+
+        <div class="formula-box calculator-formula">
+            ε = N × ΔΦ / Δt
+        </div>
+
+
+        <label for="turnsInput">
+            Number of Turns (N)
+        </label>
+
+        <input
+            type="number"
+            id="turnsInput"
+            value="10"
+            min="1"
+        >
+
+
+        <label for="fluxChange">
+            Change in Magnetic Flux (ΔΦ) in Weber
+        </label>
+
+        <input
+            type="number"
+            id="fluxChange"
+            value="0.5"
+            step="0.1"
+        >
+
+
+        <label for="timeChange">
+            Time Change (Δt) in seconds
+        </label>
+
+        <input
+            type="number"
+            id="timeChange"
+            value="1"
+            step="0.1"
+            min="0.01"
+        >
+
+
+        <button onclick="calculateEMF()">
+            Calculate Induced EMF
+        </button>
+
+        <p
+            class="result-text"
+            id="result"
+        >
+            Result will appear here.
+        </p>
+
+    </div>
+
+
+    <!-- Explanation -->
+    <div class="teaching-grid">
+
+        <div class="feature-card">
+
+            <h3>Magnetic Flux</h3>
+
+            <p>
+                Magnetic flux represents the amount of magnetic field
+                passing through a given surface.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <h3>Induced EMF</h3>
+
+            <p>
+                A changing magnetic flux produces an electromotive force
+                in the conducting loop.
+            </p>
+
+        </div>
+
+
+        <div class="advanced-card">
+
+            <h3>Lenz's Law</h3>
+
+            <p>
+                The induced current opposes the change in magnetic flux
+                that produced it.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Final message -->
+    <div class="intro-card">
+
+        <h2>Key Idea</h2>
+
+        <p>
+            Faster changes in magnetic flux produce a larger induced EMF.
+            Increasing the number of turns also increases the induced EMF.
         </p>
 
     </div>
 
 </div>
+
+
+<script>
+
+    // Magnetic field slider
+    const magneticField =
+        document.getElementById("magneticField");
+
+    const fieldValue =
+        document.getElementById("fieldValue");
+
+    // Coil turns slider
+    const coilTurns =
+        document.getElementById("coilTurns");
+
+    const turnValue =
+        document.getElementById("turnValue");
+
+    // Galvanometer needle
+    const needle =
+        document.getElementById("needle");
+
+    const currentStatus =
+        document.getElementById("currentStatus");
+
+
+    function updateVisualization() {
+
+        const field =
+            Number(magneticField.value);
+
+        const turns =
+            Number(coilTurns.value);
+
+
+        fieldValue.textContent =
+            "Magnetic Field: " + field + "%";
+
+        turnValue.textContent =
+            "Turns: " + turns;
+
+
+        // Move galvanometer needle
+        const angle =
+            -70 + (field / 100) * 140;
+
+        needle.style.transform =
+            "rotate(" + angle + "deg)";
+
+
+        // Change current status
+        if (field < 30) {
+
+            currentStatus.textContent =
+                "Induced current: Low";
+
+        } else if (field < 70) {
+
+            currentStatus.textContent =
+                "Induced current: Moderate";
+
+        } else {
+
+            currentStatus.textContent =
+                "Induced current: High";
+
+        }
+
+    }
+
+
+    magneticField.addEventListener(
+        "input",
+        updateVisualization
+    );
+
+    coilTurns.addEventListener(
+        "input",
+        updateVisualization
+    );
+
+
+    // EMF Calculator
+    function calculateEMF() {
+
+        const N =
+            Number(
+                document.getElementById("turnsInput").value
+            );
+
+        const flux =
+            Number(
+                document.getElementById("fluxChange").value
+            );
+
+        const time =
+            Number(
+                document.getElementById("timeChange").value
+            );
+
+
+        if (
+            N <= 0 ||
+            time <= 0 ||
+            isNaN(N) ||
+            isNaN(flux) ||
+            isNaN(time)
+        ) {
+
+            document.getElementById("result").textContent =
+                "Please enter valid values.";
+
+            return;
+        }
+
+
+        const emf =
+            (N * flux) / time;
+
+
+        document.getElementById("result").textContent =
+            "Induced EMF = " +
+            emf.toFixed(3) +
+            " V";
+
+    }
+
+
+    // Start visualization
+    updateVisualization();
+
+</script>
 
 </body>
 </html>
