@@ -6,9 +6,11 @@ The course covers electrostatics, magnetostatics, and electromagnetic waves, inc
 
 
 created by 
+Faculty Coordinators
 Dr.k.Harisudha 
 Dr.S.Murugaveni
 Dr.G.Elavel Visuvanathan 
+Student Coordinators
 Ms Prajna Sree Gudivada  
 Ms Peyla Navya Dhara Manikanta 
 Ms Bramhani Sirimandla 
