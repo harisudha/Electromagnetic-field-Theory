@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,212 +15,301 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #111827;
-            color: white;
-            text-align: center;
-        }
-
-        header {
-            padding: 35px 20px;
-        }
-
-        h1 {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #cbd5e1;
-            font-size: 18px;
+            background: linear-gradient(135deg, #eef2ff, #e0f2fe);
+            color: #0f172a;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: auto;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
-        .cards {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-            margin-top: 30px;
+        .header {
+            text-align: center;
+            background: white;
+            padding: 35px 20px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 38px;
+            color: #1d4ed8;
+        }
+
+        .header p {
+            font-size: 17px;
+            color: #475569;
+            margin-top: 12px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 30px 0 20px;
+            color: #1e3a8a;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .card {
-            width: 280px;
-            padding: 30px 20px;
-            background: #1e293b;
+            background: white;
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: 0.2s;
         }
 
-        .card h2 {
-            margin-bottom: 15px;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card h3 {
+            color: #2563eb;
+            margin-top: 0;
         }
 
         .card p {
-            color: #cbd5e1;
+            color: #64748b;
+            min-height: 45px;
         }
 
         .card a {
             display: inline-block;
-            margin-top: 15px;
-            padding: 12px 20px;
+            text-decoration: none;
             background: #2563eb;
             color: white;
-            text-decoration: none;
+            padding: 10px 18px;
             border-radius: 8px;
+            margin-top: 10px;
+            font-weight: bold;
         }
 
         .card a:hover {
             background: #1d4ed8;
         }
 
-        .authors {
-            margin-top: 50px;
-            padding: 25px;
-            background: #1e293b;
-            border-radius: 15px;
+        .footer {
+            text-align: center;
+            margin-top: 35px;
+            color: #64748b;
         }
 
-        .authors h2 {
-            margin-bottom: 15px;
-        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 28px;
+            }
 
-        #authorList {
-            color: #cbd5e1;
-            line-height: 1.8;
-        }
-
-        footer {
-            margin-top: 40px;
-            padding: 20px;
-            color: #94a3b8;
+            .container {
+                padding: 20px 12px;
+            }
         }
     </style>
+
 </head>
 
 <body>
 
-<header>
-    <h1>Electromagnetic Field Theory</h1>
-
-    <p class="subtitle">
-        Interactive Coordinate System Visualization
-    </p>
-</header>
-
 <div class="container">
 
-    <div class="cards">
+    <!-- Main Header -->
+
+    <div class="header">
+
+        <h1>Electromagnetic Field Theory</h1>
+
+        <p>
+            Interactive learning and visualization of important
+            concepts in Electromagnetic Field Theory.
+        </p>
+
+    </div>
+
+
+    <!-- Coordinate Systems -->
+
+    <h2 class="section-title">
+        Coordinate Systems
+    </h2>
+
+    <div class="topics">
 
         <div class="card">
-            <h2>Cartesian</h2>
-            <p>Explore the 3D Cartesian Coordinate System.</p>
-            <a href="cartesian.html">Open Visualization</a>
+
+            <h3>Cartesian Coordinates</h3>
+
+            <p>
+                Explore the three-dimensional Cartesian coordinate system.
+            </p>
+
+            <a href="cartesian.html">
+                Open Visualization
+            </a>
+
         </div>
 
-        <div class="card">
-            <h2>Cylindrical</h2>
-            <p>Explore the Cylindrical Coordinate System.</p>
-            <a href="cylindrical.html">Open Visualization</a>
-        </div>
 
         <div class="card">
-            <h2>Spherical</h2>
-            <p>Explore the Spherical Coordinate System.</p>
-            <a href="spherical.html">Open Visualization</a>
+
+            <h3>Cylindrical Coordinates</h3>
+
+            <p>
+                Understand cylindrical coordinate representation and visualization.
+            </p>
+
+            <a href="cylindrical.html">
+                Open Visualization
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Spherical Coordinates</h3>
+
+            <p>
+                Explore spherical coordinates and their geometric representation.
+            </p>
+
+            <a href="spherical.html">
+                Open Visualization
+            </a>
+
         </div>
 
     </div>
 
 
-    <!-- AUTHORS -->
+    <!-- Electromagnetic Laws -->
 
-    <div class="authors">
+    <h2 class="section-title">
+        Electromagnetic Laws
+    </h2>
 
-        <h2>Project Authors</h2>
+    <div class="topics">
 
-        <div id="authorList">
-            Loading authors...
+        <div class="card">
+
+            <h3>Coulomb's Law</h3>
+
+            <p>
+                Interactive visualization and calculation of electric force
+                between charges.
+            </p>
+
+            <a href="coulomb.html">
+                Open Coulomb's Law
+            </a>
+
         </div>
+
+
+        <div class="card">
+
+            <h3>Faraday's Law</h3>
+
+            <p>
+                Explore electromagnetic induction, magnetic flux and induced EMF.
+            </p>
+
+            <a href="Faraday.html">
+                Open Faraday's Law
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Gauss's Law</h3>
+
+            <p>
+                Learn about electric flux and the relationship between
+                charge and electric field.
+            </p>
+
+            <a href="gauss.html">
+                Open Gauss's Law
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- More Topics -->
+
+    <h2 class="section-title">
+        More Topics
+    </h2>
+
+    <div class="topics">
+
+        <div class="card">
+
+            <h3>Ampere's Law</h3>
+
+            <p>
+                Study the relationship between electric current and magnetic fields.
+            </p>
+
+            <a href="ampere.html">
+                Open Topic
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Biot-Savart Law</h3>
+
+            <p>
+                Explore the magnetic field produced by a current-carrying conductor.
+            </p>
+
+            <a href="biot-savart.html">
+                Open Topic
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Electromagnetic Waves</h3>
+
+            <p>
+                Learn about electromagnetic wave propagation and field interaction.
+            </p>
+
+            <a href="waves.html">
+                Open Topic
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        <p>
+            Electromagnetic Field Theory | Interactive Learning Project
+        </p>
 
     </div>
 
 </div>
-
-
-<footer>
-    © 2026 Electromagnetic Field Theory
-</footer>
-
-
-<script>
-
-fetch("README.md")
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("README.md not found");
-        }
-
-        return response.text();
-    })
-
-    .then(text => {
-
-        /*
-         Find the "Authors" section
-         in README.md
-        */
-
-        const match = text.match(
-            /###?\s*Authors?([\s\S]*?)(?=\n###|\n##|$)/i
-        );
-
-        const authorList = document.getElementById("authorList");
-
-        if (!match) {
-            authorList.innerHTML =
-                "Authors information not found in README.md";
-            return;
-        }
-
-        const section = match[1];
-
-        /*
-         Extract names written as:
-         - Name
-         * Name
-        */
-
-        const names = section
-            .split("\n")
-            .map(line => line.replace(/^[-*]\s*/, "").trim())
-            .filter(line => line.length > 0);
-
-        if (names.length === 0) {
-            authorList.innerHTML =
-                "No authors listed in README.md";
-            return;
-        }
-
-        authorList.innerHTML =
-            names.map(name => "• " + name).join("<br>");
-
-    })
-
-    .catch(error => {
-
-        document.getElementById("authorList").innerHTML =
-            "Unable to load authors from README.md";
-
-        console.error(error);
-
-    });
-
-</script>
 
 </body>
 </html>
