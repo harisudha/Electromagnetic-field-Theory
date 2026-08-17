@@ -1,0 +1,1142 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="../style.css">
+
+<title>Coulomb's Law - Interactive Project</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #0b1020;
+        color: #eef2ff;
+        line-height: 1.6;
+    }
+
+    header {
+        padding: 55px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #111a35, #172554);
+        border-bottom: 1px solid #334155;
+    }
+
+    header h1 {
+        font-size: clamp(35px, 6vw, 65px);
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+
+    header p {
+        color: #b9c4df;
+        font-size: 18px;
+    }
+
+    .formula-box {
+        max-width: 900px;
+        margin: 35px auto 0;
+        padding: 25px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid #334155;
+        border-radius: 18px;
+    }
+
+    .formula {
+        font-size: 34px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .constant {
+        color: #aab8d8;
+    }
+
+    .container {
+        width: min(1200px, 92%);
+        margin: auto;
+    }
+
+    section {
+        margin: 45px 0;
+    }
+
+    .section-title {
+        font-size: 30px;
+        margin-bottom: 22px;
+        color: #ffffff;
+    }
+
+    .card {
+        background: #111827;
+        border: 1px solid #26334d;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+    }
+
+    .input-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 9px;
+        color: #dbe5ff;
+    }
+
+    .input-row {
+        display: flex;
+        gap: 8px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid #3b4a68;
+        background: #080d19;
+        color: white;
+        font-size: 17px;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        background: #2563eb;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .result { text-align: center; padding: 40px 20px; }
+    .force-value { font-size: 55px; font-weight: bold; color: #60a5fa; margin: 10px 0; }
+    .nature { display: inline-block; padding: 8px 18px; border-radius: 30px; font-weight: bold; margin-top: 10px; }
+    .attractive { background: #064e3b; color: #6ee7b7; }
+    .repulsive { background: #7f1d1d; color: #fca5a5; }
+    .solution { font-size: 17px; }
+    .step { padding: 20px; margin: 15px 0; background: #0b1222; border-left: 4px solid #3b82f6; border-radius: 8px; }
+    .step h3 { color: #60a5fa; margin-bottom: 8px; }
+    .equation { font-family: "Times New Roman", serif; font-size: 22px; margin: 10px 0; color: #f8fafc; overflow-x: auto; }
+    .diagram { position: relative; height: 350px; overflow: hidden; background: radial-gradient(circle at center, #172033, #080d17); border-radius: 18px; border: 1px solid #334155; }
+    .charge { position: absolute; top: 50%; transform: translateY(-50%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; box-shadow: 0 0 35px rgba(255,255,255,0.12); }
+    #charge1 { left: 15%; background: #ef4444; }
+    #charge2 { right: 15%; background: #3b82f6; }
+    .distance-line { position: absolute; top: 50%; left: 22%; right: 22%; height: 2px; background: #facc15; }
+    .distance-text { position: absolute; top: calc(50% - 35px); left: 50%; transform: translateX(-50%); color: #facc15; font-weight: bold; }
+    .arrow { position: absolute; top: calc(50% + 65px); font-size: 40px; font-weight: bold; }
+    #arrow1 { left: 20%; }
+
+    #arrow2 {
+        right: 20%;
+    }
+
+    .graphs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .graph-card {
+        background: #111827;
+        border: 1px solid #26334d;
+        border-radius: 18px;
+        padding: 25px;
+    }
+
+    canvas {
+        width: 100%;
+        height: 350px;
+        background: #080d17;
+        border-radius: 12px;
+        margin-top: 15px;
+    }
+
+    .relationships {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .relationship {
+        text-align: center;
+        padding: 25px 15px;
+        background: #111827;
+        border: 1px solid #26334d;
+        border-radius: 15px;
+    }
+
+    .relationship strong {
+        display: block;
+        font-size: 28px;
+        color: #60a5fa;
+        margin-bottom: 10px;
+    }
+
+    .explanation {
+        color: #cbd5e1;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        margin-top: 70px;
+        border-top: 1px solid #26334d;
+        color: #94a3b8;
+    }
+
+    @media (max-width: 850px) {
+        .input-grid, .graphs { grid-template-columns: 1fr; }
+        .relationships { grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Coulomb's Law</h1>
+    <p>Electrostatic Force — Calculation, Visualization &amp; Graphs</p>
+    <div class="formula-box">
+        <div class="formula">F = k |q₁q₂| / r²</div>
+        <div class="constant">k = 8.9875517923 × 10⁹ N·m²/C²</div>
+    </div>
+</header>
+
+<main class="container">
+
+<section>
+    <h2 class="section-title">1. Enter the Values</h2>
+    <div class="card">
+        <div class="input-grid">
+            <div>
+                <label>Charge q₁</label>
+                <div class="input-row">
+                    <input id="q1" type="number" value="5" step="any">
+                    <select id="q1Unit">
+                        <option value="1">C</option>
+                        <option value="1e-3">mC</option>
+                        <option value="1e-6" selected>μC</option>
+                        <option value="1e-9">nC</option>
+                        <option value="1e-12">pC</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>Charge q₂</label>
+                <div class="input-row">
+                    <input id="q2" type="number" value="-3" step="any">
+                    <select id="q2Unit">
+                        <option value="1">C</option>
+                        <option value="1e-3">mC</option>
+                        <option value="1e-6" selected>μC</option>
+                        <option value="1e-9">nC</option>
+                        <option value="1e-12">pC</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>Distance r</label>
+                <div class="input-row">
+                    <input id="distance" type="number" value="20" min="0.000001" step="any">
+                    <select id="distanceUnit">
+                        <option value="1000">km</option>
+                        <option value="1" selected>m</option>
+                        <option value="0.01">cm</option>
+                        <option value="0.001">mm</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <button onclick="calculate()">CALCULATE COULOMB FORCE</button>
+
+    </div>
+
+</section>
+
+
+<!-- RESULT -->
+
+<section>
+
+    <h2 class="section-title">2. Calculated Result</h2>
+
+    <div class="card result">
+
+        <p>Electrostatic Force</p>
+
+        <div class="force-value" id="forceResult">
+            —
+        </div>
+
+        <p id="forceDetails">
+            Enter the values and click Calculate.
+        </p>
+
+        <div id="nature" class="nature">
+            —
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SOLUTION -->
+
+<section>
+
+    <h2 class="section-title">3. Step-by-Step Solution</h2>
+
+    <div class="card solution" id="solution">
+
+        <p>
+            Enter values above to generate the complete solution.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- DIAGRAM -->
+
+<section>
+
+    <h2 class="section-title">4. Coulomb's Law Diagram</h2>
+
+    <div class="card">
+
+        <div class="diagram">
+
+            <div id="charge1" class="charge">
+                +q₁
+            </div>
+
+            <div id="charge2" class="charge">
+                −q₂
+            </div>
+
+            <div class="distance-line"></div>
+
+            <div id="distanceText" class="distance-text">
+                r
+            </div>
+
+            <div id="arrow1" class="arrow">
+                →
+            </div>
+
+            <div id="arrow2" class="arrow">
+                ←
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- 3D FIELD VISUALIZATION -->
+
+<section>
+
+    <h2 class="section-title">5. 3D Electric Field Visualization</h2>
+
+    <div class="card field-card">
+
+        <div class="field-layout">
+
+            <div class="field-stage" id="fieldStage" aria-label="Interactive 3D visualization of two point charges">
+                <div class="field-grid"></div>
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <div class="orbit orbit-three"></div>
+                <div class="field-axis axis-x"></div>
+                <div class="field-axis axis-y"></div>
+                <div class="field-axis axis-z"></div>
+                <div class="field-charge field-charge-one" id="fieldCharge1"><span>+q₁</span></div>
+                <div class="field-charge field-charge-two" id="fieldCharge2"><span>−q₂</span></div>
+                <div class="field-vector vector-one" id="fieldVector1">➜</div>
+                <div class="field-vector vector-two" id="fieldVector2">➜</div>
+            </div>
+
+            <div class="field-readout">
+                <div class="readout-kicker">LIVE MODEL</div>
+                <h3>Force field relationship</h3>
+                <p id="fieldSummary">Change a value to see the 3D model respond.</p>
+                <div class="field-stat-grid">
+                    <div><span>Separation</span><strong id="fieldDistance">—</strong></div>
+                    <div><span>Force</span><strong id="fieldForce">—</strong></div>
+                    <div><span>Interaction</span><strong id="fieldType">—</strong></div>
+                    <div><span>Direction</span><strong id="fieldDirection">—</strong></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- GRAPHS -->
+
+<section>
+
+    <h2 class="section-title">6. Coulomb's Law Graphs</h2>
+
+    <div class="graphs">
+
+        <div class="graph-card">
+
+            <h3>Force vs Distance</h3>
+
+            <p class="explanation">
+                The force decreases according to the inverse-square law.
+            </p>
+
+            <div class="graph-legend"><span class="legend-line blue"></span><span>F = k|q₁q₂| / r²</span><strong id="distanceGraphValue">Live point: —</strong></div>
+
+            <canvas id="distanceGraph"></canvas>
+
+        </div>
+
+
+        <div class="graph-card">
+
+            <h3>Force vs Charge q₁</h3>
+
+            <p class="explanation">
+                Force is directly proportional to the magnitude of charge.
+            </p>
+
+            <div class="graph-legend"><span class="legend-line green"></span><span>F changes linearly with |q₁|</span><strong id="chargeGraphValue">Live point: —</strong></div>
+
+            <canvas id="chargeGraph"></canvas>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RELATIONSHIPS -->
+
+<section>
+
+    <h2 class="section-title">7. Important Relationships</h2>
+
+    <div class="relationships">
+
+        <div class="relationship">
+            <strong>F ∝ q₁</strong>
+            <p>Increasing q₁ increases the force.</p>
+        </div>
+
+        <div class="relationship">
+            <strong>F ∝ q₂</strong>
+            <p>Increasing q₂ increases the force.</p>
+        </div>
+
+        <div class="relationship">
+            <strong>F ∝ q₁q₂</strong>
+            <p>Force depends on both charges.</p>
+        </div>
+
+        <div class="relationship">
+            <strong>F ∝ 1/r²</strong>
+            <p>Force decreases rapidly with distance.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- EXPLANATION -->
+
+<section>
+
+    <h2 class="section-title">8. Physical Explanation</h2>
+
+    <div class="card">
+
+        <div id="explanation" class="explanation">
+
+            Coulomb's Law describes the electrostatic force between
+            two point charges.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- THEORY -->
+
+<section>
+
+    <h2 class="section-title">9. Theory</h2>
+
+    <div class="card explanation">
+
+        <h3>What is Coulomb's Law?</h3>
+
+        <p>
+            Coulomb's Law states that the electrostatic force between
+            two point charges is directly proportional to the product
+            of their charges and inversely proportional to the square
+            of the distance between them.
+        </p>
+
+        <br>
+
+        <h3>Formula</h3>
+
+        <p class="equation">
+            F = k |q₁q₂| / r²
+        </p>
+
+        <h3>Where:</h3>
+
+        <p>
+            F = electrostatic force in Newtons (N)
+        </p>
+
+        <p>
+            q₁ and q₂ = electric charges in Coulombs (C)
+        </p>
+
+        <p>
+            r = distance between the charges in metres (m)
+        </p>
+
+        <p>
+            k = Coulomb's constant
+        </p>
+
+        <br>
+
+        <h3>Attraction and Repulsion</h3>
+
+        <p>
+            Like charges repel each other, while unlike charges
+            attract each other.
+        </p>
+
+        <br>
+
+        <h3>Inverse-Square Law</h3>
+
+        <p>
+            If the distance between two charges is doubled,
+            the electrostatic force becomes one-fourth of its
+            original value.
+        </p>
+
+        <p>
+            F ∝ 1/r²
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Coulomb's Law — Interactive Physics Project
+    </p>
+
+    <p>
+        B.Tech Engineering Project
+    </p>
+
+</footer>
+
+
+<script>
+
+/* Keep all visual surfaces synchronized with the calculator inputs. */
+function updateFieldVisualization() {
+
+    const q1Input = parseFloat(document.getElementById("q1").value);
+    const q2Input = parseFloat(document.getElementById("q2").value);
+    const distanceInput = parseFloat(document.getElementById("distance").value);
+    const q1Unit = parseFloat(document.getElementById("q1Unit").value);
+    const q2Unit = parseFloat(document.getElementById("q2Unit").value);
+    const distanceUnit = parseFloat(document.getElementById("distanceUnit").value);
+
+    if (!Number.isFinite(q1Input) || !Number.isFinite(q2Input) || !Number.isFinite(distanceInput) || distanceInput <= 0) {
+        return;
+    }
+
+    const q1 = q1Input * q1Unit;
+    const q2 = q2Input * q2Unit;
+    const distance = distanceInput * distanceUnit;
+    const force = k * Math.abs(q1 * q2) / Math.pow(distance, 2);
+    const attractive = q1 * q2 < 0;
+    const stage = document.getElementById("fieldStage");
+    const chargeOne = document.getElementById("fieldCharge1");
+    const chargeTwo = document.getElementById("fieldCharge2");
+    const vectorOne = document.getElementById("fieldVector1");
+    const vectorTwo = document.getElementById("fieldVector2");
+
+    chargeOne.classList.toggle("negative", q1 < 0);
+    chargeTwo.classList.toggle("negative", q2 < 0);
+    stage.classList.toggle("attractive-field", attractive);
+    stage.classList.toggle("repulsive-field", !attractive);
+    chargeOne.querySelector("span").textContent = q1 >= 0 ? "+q₁" : "−q₁";
+    chargeTwo.querySelector("span").textContent = q2 >= 0 ? "+q₂" : "−q₂";
+    vectorOne.textContent = attractive ? "➜" : "←";
+    vectorTwo.textContent = attractive ? "➜" : "←";
+
+    const scale = Math.max(0.78, Math.min(1.28, 0.9 + Math.log10(Math.max(force, 1e-12)) * 0.035));
+    stage.style.setProperty("--charge-scale", scale.toFixed(2));
+    stage.style.setProperty("--field-speed", Math.max(2.2, Math.min(8, 7 - scale * 2.5)) + "s");
+    document.getElementById("fieldDistance").textContent = formatNumber(distance) + " m";
+    document.getElementById("fieldForce").textContent = formatNumber(force) + " N";
+    document.getElementById("fieldType").textContent = attractive ? "Attraction" : (q1 * q2 === 0 ? "None" : "Repulsion");
+    document.getElementById("fieldDirection").textContent = attractive ? "Together" : "Apart";
+    document.getElementById("fieldSummary").textContent = attractive
+        ? "Opposite signs bend the field interaction inward."
+        : "Like signs push the field interaction outward.";
+}
+
+window.addEventListener("DOMContentLoaded", function () {
+    ["q1", "q2", "distance", "q1Unit", "q2Unit", "distanceUnit"].forEach(function (id) {
+        document.getElementById(id).addEventListener("input", function () {
+            calculate();
+            updateFieldVisualization();
+        });
+        document.getElementById(id).addEventListener("change", function () {
+            calculate();
+            updateFieldVisualization();
+        });
+    });
+    updateFieldVisualization();
+});
+
+</script>
+
+
+<script>
+
+const k = 8.9875517923e9;
+
+
+/* FORMAT NUMBER */
+
+function formatNumber(value) {
+
+    if (!isFinite(value)) return "Undefined";
+
+    if (value === 0) return "0";
+
+    if (Math.abs(value) >= 100000 || Math.abs(value) < 0.001) {
+
+        return value.toExponential(4);
+
+    }
+
+    return value.toFixed(4).replace(/\.?0+$/, "");
+
+}
+
+
+/* CALCULATE */
+
+function calculate() {
+
+    const q1Input = parseFloat(document.getElementById("q1").value);
+    const q2Input = parseFloat(document.getElementById("q2").value);
+    const rInput = parseFloat(document.getElementById("distance").value);
+
+    const q1Unit = parseFloat(document.getElementById("q1Unit").value);
+    const q2Unit = parseFloat(document.getElementById("q2Unit").value);
+    const rUnit = parseFloat(document.getElementById("distanceUnit").value);
+
+    if (!isFinite(q1Input) || !isFinite(q2Input) || !isFinite(rInput)) {
+
+        alert("Please enter all values correctly.");
+        return;
+    }
+
+    if (rInput <= 0) {
+
+        alert("Distance must be greater than zero.");
+        return;
+    }
+
+
+    /* SI CONVERSION */
+
+    const q1 = q1Input * q1Unit;
+    const q2 = q2Input * q2Unit;
+
+    const r = rInput * rUnit;
+
+
+    /* COULOMB LAW */
+
+    const force = k * Math.abs(q1 * q2) / (r * r);
+
+
+    /* NATURE */
+
+    const attractive = q1 * q2 < 0;
+
+    const natureElement = document.getElementById("nature");
+
+    if (attractive) {
+
+        natureElement.textContent = "ATTRACTIVE FORCE";
+        natureElement.className = "nature attractive";
+
+    } else {
+
+        natureElement.textContent = "REPULSIVE FORCE";
+        natureElement.className = "nature repulsive";
+
+    }
+
+
+    /* RESULT */
+
+    document.getElementById("forceResult").textContent =
+        formatNumber(force) + " N";
+
+
+    document.getElementById("forceDetails").textContent =
+        "Magnitude: " + formatNumber(force) +
+        " N  |  Distance: " + formatNumber(r) + " m";
+
+
+    /* SOLUTION */
+
+    const q1Scientific = q1.toExponential(4);
+    const q2Scientific = q2.toExponential(4);
+    const rScientific = r.toExponential(4);
+
+    document.getElementById("solution").innerHTML = `
+
+        <div class="step">
+
+            <h3>Step 1 — Given Values</h3>
+
+            <p>q₁ = ${q1Input} ${getSelectedText("q1Unit")}</p>
+
+            <p>q₂ = ${q2Input} ${getSelectedText("q2Unit")}</p>
+
+            <p>r = ${rInput} ${getSelectedText("distanceUnit")}</p>
+
+        </div>
+
+
+        <div class="step">
+
+            <h3>Step 2 — Convert to SI Units</h3>
+
+            <p>q₁ = ${q1Scientific} C</p>
+
+            <p>q₂ = ${q2Scientific} C</p>
+
+            <p>r = ${rScientific} m</p>
+
+        </div>
+
+
+        <div class="step">
+
+            <h3>Step 3 — Coulomb's Law</h3>
+
+            <p class="equation">
+
+                F = k |q₁q₂| / r²
+
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <h3>Step 4 — Substitute the Values</h3>
+
+            <p class="equation">
+
+                F =
+                (8.9875517923 × 10⁹)
+                × |(${q1Scientific})(${q2Scientific})|
+                / (${rScientific})²
+
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <h3>Step 5 — Final Calculation</h3>
+
+            <p class="equation">
+
+                F = ${formatNumber(force)} N
+
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <h3>Step 6 — Interpretation</h3>
+
+            <p>
+
+                Since the charges have
+                ${attractive ? "opposite" : "the same"}
+                signs, the force is
+                <strong>${attractive ? "ATTRACTIVE" : "REPULSIVE"}</strong>.
+
+            </p>
+
+        </div>
+
+    `;
+
+
+    /* DIAGRAM */
+
+    document.getElementById("charge1").textContent =
+        q1 >= 0 ? "+q₁" : "−q₁";
+
+    document.getElementById("charge2").textContent =
+        q2 >= 0 ? "+q₂" : "−q₂";
+
+    document.getElementById("distanceText").textContent =
+        "r = " + formatNumber(r) + " m";
+
+
+    if (attractive) {
+
+        document.getElementById("arrow1").textContent = "→";
+        document.getElementById("arrow2").textContent = "←";
+
+    } else {
+
+        document.getElementById("arrow1").textContent = "←";
+        document.getElementById("arrow2").textContent = "→";
+
+    }
+
+
+    /* EXPLANATION */
+
+    document.getElementById("explanation").innerHTML = `
+
+        <p>
+
+        The calculated electrostatic force between the two charges is
+
+        <strong>${formatNumber(force)} N</strong>.
+
+        </p>
+
+        <br>
+
+        <p>
+
+        The charges are
+        <strong>${attractive ? "oppositely charged" : "similarly charged"}</strong>,
+        therefore the force is
+        <strong>${attractive ? "attractive" : "repulsive"}</strong>.
+
+        </p>
+
+        <br>
+
+        <p>
+
+        The force acts along the straight line joining the two charges.
+
+        According to Newton's third law, the forces acting on the two
+        charges have equal magnitudes but opposite directions.
+
+        </p>
+
+    `;
+
+
+    drawDistanceGraph(q1, q2, r);
+    drawChargeGraph(q2, r);
+
+}
+
+
+/* GET SELECTED UNIT TEXT */
+
+function getSelectedText(id) {
+
+    const select = document.getElementById(id);
+
+    return select.options[select.selectedIndex].text;
+
+}
+
+
+/* SHARED GRAPH RENDERING */
+
+function prepareGraph(canvas) {
+    const ratio = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    canvas.width = W * ratio;
+    canvas.height = H * ratio;
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    return {ctx, W, H, left: 68, right: 18, top: 26, bottom: 56};
+}
+
+function graphNumber(value) {
+    if (value === 0) return "0";
+    if (Math.abs(value) >= 1000 || Math.abs(value) < 0.01) return value.toExponential(1);
+    return value.toFixed(2).replace(/\.00$/, "");
+}
+
+function drawGraphFrame(graph, xLabel, yMax, xTicks, yLabel) {
+    const {ctx, W, H, left, right, top, bottom} = graph;
+    const plotWidth = W - left - right;
+    const plotHeight = H - top - bottom;
+    ctx.font = "11px Arial";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    for (let index = 0; index <= 5; index++) {
+        const y = top + plotHeight * index / 5;
+        ctx.strokeStyle = index === 5 ? "#64748b" : "#26334d";
+        ctx.lineWidth = index === 5 ? 1.5 : 1;
+        ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(W - right, y); ctx.stroke();
+        ctx.fillStyle = "#aebbd0";
+        ctx.fillText(graphNumber(yMax * (5 - index) / 5), left - 9, y);
+    }
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(left, top); ctx.lineTo(left, H - bottom); ctx.lineTo(W - right, H - bottom); ctx.stroke();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    xTicks.forEach((tick) => {
+        const x = left + plotWidth * tick.position;
+        ctx.strokeStyle = "#64748b";
+        ctx.beginPath(); ctx.moveTo(x, H - bottom); ctx.lineTo(x, H - bottom + 5); ctx.stroke();
+        ctx.fillStyle = "#aebbd0";
+        ctx.fillText(tick.label, x, H - bottom + 10);
+    });
+    ctx.fillStyle = "#dbe5ff";
+    ctx.font = "bold 12px Arial";
+    ctx.fillText(xLabel, left + plotWidth / 2, H - 17);
+    ctx.save();
+    ctx.translate(16, top + plotHeight / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText(yLabel, 0, 0);
+    ctx.restore();
+    return {plotWidth, plotHeight};
+}
+
+/* DISTANCE GRAPH */
+
+function drawDistanceGraph(q1, q2, currentR) {
+    const graph = prepareGraph(document.getElementById("distanceGraph"));
+        const {ctx, W, H, left, right, top, bottom} = graph;
+        const maxR = Math.max(currentR * 3, 1);
+        const values = Array.from({length: 120}, (_, index) => {
+            const r = maxR * (index + 1) / 120;
+            return {r, F: k * Math.abs(q1 * q2) / (r * r)};
+        });
+        const maxF = values[0].F;
+        const frame = drawGraphFrame(graph, "Distance r (m)", maxF, [0, .25, .5, .75, 1].map((position) => ({position, label: graphNumber(maxR * position)})), "Force F (N)");
+        const xOf = (r) => left + frame.plotWidth * r / maxR;
+        const yOf = (F) => H - bottom - frame.plotHeight * F / maxF;
+        ctx.beginPath();
+        values.forEach((point, index) => index ? ctx.lineTo(xOf(point.r), yOf(point.F)) : ctx.moveTo(xOf(point.r), yOf(point.F)));
+        ctx.lineTo(xOf(maxR), H - bottom); ctx.lineTo(xOf(values[0].r), H - bottom); ctx.closePath();
+        ctx.fillStyle = "rgba(96, 165, 250, 0.13)"; ctx.fill();
+        ctx.beginPath();
+        values.forEach((point, index) => index ? ctx.lineTo(xOf(point.r), yOf(point.F)) : ctx.moveTo(xOf(point.r), yOf(point.F)));
+        ctx.strokeStyle = "#60a5fa"; ctx.lineWidth = 3; ctx.stroke();
+        const currentF = k * Math.abs(q1 * q2) / Math.pow(currentR, 2);
+        const currentX = xOf(currentR); const currentY = yOf(currentF);
+        ctx.strokeStyle = "rgba(250, 204, 21, 0.6)"; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(currentX, H - bottom); ctx.lineTo(currentX, currentY); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = "#facc15"; ctx.beginPath(); ctx.arc(currentX, currentY, 6, 0, Math.PI * 2); ctx.fill();
+    document.getElementById("distanceGraphValue").textContent = "Live point: r = " + formatNumber(currentR) + " m, F = " + formatNumber(currentF) + " N";
+}
+
+
+/* CHARGE GRAPH */
+
+function drawChargeGraph(q2, r) {
+    const graph = prepareGraph(document.getElementById("chargeGraph"));
+    const {ctx, W, H} = graph;
+    const padding = graph.left;
+    const maxCharge = 10e-6;
+    const points = 100;
+    let values = [];
+
+    for (let i = 0; i <= points; i++) {
+
+        const q = -maxCharge +
+                   (2 * maxCharge * i / points);
+
+        const F =
+            k * Math.abs(q * q2) /
+            (r * r);
+
+        values.push({q, F});
+
+    }
+
+    const maxF = Math.max(...values.map(v => v.F), 1e-30);
+
+
+    /* GRID */
+
+    ctx.strokeStyle = "#26334d";
+    ctx.lineWidth = 1;
+
+    for (let i = 0; i <= 5; i++) {
+
+        const y =
+            padding +
+            i * (H - padding * 1.5) / 5;
+
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(W - 20, y);
+        ctx.stroke();
+
+    }
+
+    ctx.fillStyle = "#aebbd0";
+    ctx.font = "11px Arial";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    for (let i = 0; i <= 5; i++) {
+        const y = padding + i * (H - padding * 1.5) / 5;
+        ctx.fillText(graphNumber(maxF * (5 - i) / 5), padding - 9, y);
+    }
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    [-maxCharge, -maxCharge / 2, 0, maxCharge / 2, maxCharge].forEach((charge, index) => {
+        const x = padding + index / 4 * (W - padding - 25);
+        ctx.fillText(graphNumber(charge), x, H - padding + 10);
+    });
+
+
+    /* AXIS */
+
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(padding, 20);
+    ctx.lineTo(padding, H - padding);
+
+    ctx.lineTo(W - 20, H - padding);
+
+    ctx.stroke();
+
+
+    /* CURVE */
+
+    ctx.strokeStyle = "#34d399";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+
+    values.forEach((point, i) => {
+
+        const x =
+            padding +
+            ((point.q + maxCharge) /
+            (2 * maxCharge)) *
+            (W - padding - 25);
+
+        const y =
+            H - padding -
+            (point.F / maxF) *
+            (H - padding - 30);
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+
+    });
+
+    ctx.stroke();
+
+
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "13px Arial";
+
+    ctx.fillText("Charge q₁ (C)", W / 2 - 40, H - 12);
+
+    ctx.save();
+
+    ctx.translate(15, H / 2);
+    ctx.rotate(-Math.PI / 2);
+
+    ctx.fillText("Force F (N)", 0, 0);
+
+    ctx.restore();
+
+    const currentQ = parseFloat(document.getElementById("q1").value) * parseFloat(document.getElementById("q1Unit").value);
+    const currentF = k * Math.abs(currentQ * q2) / Math.pow(r, 2);
+    const currentX = padding + ((Math.max(-maxCharge, Math.min(maxCharge, currentQ)) + maxCharge) / (2 * maxCharge)) * (W - padding - 25);
+    const currentY = H - padding - (currentF / maxF) * (H - padding - 30);
+    ctx.fillStyle = "#facc15";
+    ctx.beginPath(); ctx.arc(currentX, currentY, 6, 0, Math.PI * 2); ctx.fill();
+    document.getElementById("chargeGraphValue").textContent = "Live point: q₁ = " + graphNumber(currentQ) + " C, F = " + formatNumber(currentF) + " N";
+
+}
+
+
+/* INITIAL CALCULATION */
+
+window.onload = function() {
+
+    calculate();
+
+};
+
+</script>
+
+</body>
+</html>
