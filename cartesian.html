@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -51,18 +51,14 @@ h2 {
     color: #eee;
 }
 
-/* Information box */
-
 .note {
     background: #333;
     padding: 10px;
     border-left: 4px solid #ff2e63;
     border-radius: 6px;
     font-size: 12px;
-    line-height: 1.55;
+    line-height: 1.7;
 }
-
-/* Controls */
 
 .row {
     display: grid;
@@ -92,8 +88,6 @@ input[type="number"] {
     text-align: center;
 }
 
-/* Buttons */
-
 .buttons {
     display: flex;
     gap: 8px;
@@ -121,8 +115,6 @@ button:hover {
 .primary:hover {
     background: #008e94;
 }
-
-/* Legend */
 
 .legend {
     font-size: 12px;
@@ -160,18 +152,14 @@ button:hover {
     position: absolute;
     top: 14px;
     right: 14px;
-
-    background: rgba(0,0,0,0.7);
-
+    background: rgba(0,0,0,0.72);
     padding: 12px 15px;
     border-radius: 8px;
-
-    min-width: 250px;
-
+    min-width: 310px;
+    max-width: 390px;
     pointer-events: none;
-
     font-size: 12px;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 #readout b {
@@ -186,7 +174,10 @@ button:hover {
     margin-right: 4px;
 }
 
-/* Responsive */
+.formula {
+    margin-left: 8px;
+    color: #eeeeee;
+}
 
 @media(max-width:800px) {
 
@@ -202,25 +193,17 @@ button:hover {
 </style>
 </head>
 
-
 <body>
 
-<!-- =========================================================
-     SIDEBAR
-========================================================= -->
+<!-- ================= SIDEBAR ================= -->
 
 <aside id="sidebar">
 
-    <h1>
-        3D Cartesian Coordinate System
-    </h1>
-
-
-    <!-- Vector calculus information -->
+    <h1>3D Cartesian Coordinate System</h1>
 
     <div class="note">
 
-        <b>Vector:</b>
+        <b>Vector:</b><br>
 
         A =
         A<sub>x</sub>a<sub>x</sub>
@@ -229,18 +212,42 @@ button:hover {
         +
         A<sub>z</sub>a<sub>z</sub>
 
-        <br>
+        <br><br>
 
-        <b>Differential:</b>
+        <b>Differential Line:</b><br>
 
-        dl =
+        dL =
         dx a<sub>x</sub>
         +
         dy a<sub>y</sub>
         +
         dz a<sub>z</sub>
 
+        <br><br>
+
+        <b>dL<sub>1</sub>:</b><br>
+
+        dL<sub>1</sub> =
+        dx dy dz
+
+        <br><br>
+
+        <b>dL<sub>2</sub>:</b><br>
+
+        dS<sub>x</sub> =
+        dy dz a<sub>x</sub>
+
         <br>
+
+        dS<sub>y</sub> =
+        dz dx a<sub>y</sub>
+
+        <br>
+
+        dS<sub>z</sub> =
+        dx dy a<sub>z</sub>
+
+        <br><br>
 
         <b>Points:</b>
 
@@ -251,22 +258,12 @@ button:hover {
     </div>
 
 
-    <!-- =====================================================
-         VECTOR A
-    ====================================================== -->
+    <!-- ================= VECTOR A ================= -->
 
-    <h2>
-        Vector A — Point P (All 8 Octants)
-    </h2>
-
-
-    <!-- X -->
+    <h2>Vector A — Point P (All 8 Octants)</h2>
 
     <div class="row">
-
-        <label style="color:#ff4136">
-            Ax (X)
-        </label>
+        <label style="color:#ff4136">Ax (X)</label>
 
         <input
             id="rangeX"
@@ -285,17 +282,11 @@ button:hover {
             step="0.1"
             value="3.5"
         >
-
     </div>
 
 
-    <!-- Y -->
-
     <div class="row">
-
-        <label style="color:#2ecc40">
-            Ay (Y)
-        </label>
+        <label style="color:#2ecc40">Ay (Y)</label>
 
         <input
             id="rangeY"
@@ -314,17 +305,11 @@ button:hover {
             step="0.1"
             value="4"
         >
-
     </div>
 
 
-    <!-- Z -->
-
     <div class="row">
-
-        <label style="color:#0074d9">
-            Az (Z)
-        </label>
+        <label style="color:#0074d9">Az (Z)</label>
 
         <input
             id="rangeZ"
@@ -343,26 +328,16 @@ button:hover {
             step="0.1"
             value="4.5"
         >
-
     </div>
 
 
-    <!-- =====================================================
-         DIFFERENTIAL
-    ====================================================== -->
+    <!-- ================= DIFFERENTIAL ================= -->
 
-    <h2>
-        Differential dl — P → P′
-    </h2>
+    <h2>Differential Components</h2>
 
-
-    <!-- dx -->
 
     <div class="row">
-
-        <label>
-            dx
-        </label>
+        <label>dx</label>
 
         <input
             id="rangeDX"
@@ -381,17 +356,11 @@ button:hover {
             step="0.1"
             value="1.5"
         >
-
     </div>
 
 
-    <!-- dy -->
-
     <div class="row">
-
-        <label>
-            dy
-        </label>
+        <label>dy</label>
 
         <input
             id="rangeDY"
@@ -410,17 +379,11 @@ button:hover {
             step="0.1"
             value="1.5"
         >
-
     </div>
 
 
-    <!-- dz -->
-
     <div class="row">
-
-        <label>
-            dz
-        </label>
+        <label>dz</label>
 
         <input
             id="rangeDZ"
@@ -439,118 +402,57 @@ button:hover {
             step="0.1"
             value="1.5"
         >
-
     </div>
 
 
-    <!-- =====================================================
-         CAMERA CONTROLS
-    ====================================================== -->
+    <!-- ================= CAMERA ================= -->
 
-    <h2>
-        Camera
-    </h2>
-
+    <h2>Camera</h2>
 
     <div class="buttons">
+        <button id="left">Rotate ↺</button>
+        <button id="right">Rotate ↻</button>
+    </div>
 
-        <button id="left">
-            Rotate ↺
-        </button>
-
-        <button id="right">
-            Rotate ↻
-        </button>
-
+    <div class="buttons" style="margin-top:8px">
+        <button id="top">Top View</button>
+        <button id="reset" class="primary">Reset</button>
     </div>
 
 
-    <div
-        class="buttons"
-        style="margin-top:8px"
-    >
+    <!-- ================= LEGEND ================= -->
 
-        <button id="top">
-            Top View
-        </button>
-
-        <button
-            id="reset"
-            class="primary"
-        >
-            Reset
-        </button>
-
-    </div>
-
-
-    <!-- =====================================================
-         LEGEND
-    ====================================================== -->
-
-    <h2>
-        Legend
-    </h2>
-
+    <h2>Legend</h2>
 
     <div class="legend">
 
         <div>
-            <span
-                class="swatch"
-                style="background:#ff4136"
-            ></span>
-
+            <span class="swatch" style="background:#ff4136"></span>
             X axis / a<sub>x</sub>
         </div>
 
-
         <div>
-            <span
-                class="swatch"
-                style="background:#2ecc40"
-            ></span>
-
+            <span class="swatch" style="background:#2ecc40"></span>
             Y axis / a<sub>y</sub>
         </div>
 
-
         <div>
-            <span
-                class="swatch"
-                style="background:#0074d9"
-            ></span>
-
+            <span class="swatch" style="background:#0074d9"></span>
             Z axis / a<sub>z</sub>
         </div>
 
-
         <div>
-            <span
-                class="swatch"
-                style="background:#f012be"
-            ></span>
-
+            <span class="swatch" style="background:#f012be"></span>
             Vector A (O → P)
         </div>
 
-
         <div>
-            <span
-                class="swatch"
-                style="background:#ff851b"
-            ></span>
-
-            Vector dl (P → P′)
+            <span class="swatch" style="background:#ff851b"></span>
+            Differential Vector (P → P′)
         </div>
 
-
         <div>
-            <span
-                class="swatch"
-                style="background:#aaa"
-            ></span>
-
+            <span class="swatch" style="background:#aaa"></span>
             Dashed lines = projections
         </div>
 
@@ -559,107 +461,104 @@ button:hover {
 </aside>
 
 
-<!-- =========================================================
-     3D GRAPHICAL AREA
-========================================================= -->
+<!-- ================= 3D GRAPHICAL AREA ================= -->
 
 <main id="stage">
 
     <canvas id="threeCanvas"></canvas>
 
 
-    <!-- Live coordinate display -->
+    <!-- ================= LIVE READOUT ================= -->
 
     <div id="readout">
 
-        <b>
-            Live Coordinates
-        </b>
+        <b>Live Coordinates</b>
 
-        <br>
+        <br><br>
 
-
-        <span class="badge">
-            P
-        </span>
+        <span class="badge">P</span>
 
         (
-        <span id="pval">
-            3.5, 4.0, 4.5
-        </span>
+        <span id="pval">3.5, 4.0, 4.5</span>
         )
 
         <br>
 
-
-        <span class="badge">
-            P′
-        </span>
+        <span class="badge">P′</span>
 
         (
-        <span id="ppval">
-            5.0, 5.5, 6.0
-        </span>
+        <span id="ppval">5.0, 5.5, 6.0</span>
         )
 
         <br>
 
-
-        <span class="badge">
-            A
-        </span>
+        <span class="badge">A</span>
 
         |A| =
-
-        <span id="alen">
-            7.02
-        </span>
+        <span id="alen">7.02</span>
 
         <br>
 
+        <span class="badge">dL</span>
 
-        <span class="badge">
-            dl
-        </span>
+        |dL| =
+        <span id="dlen">2.60</span>
 
-        |dl| =
+        <br><br>
 
-        <span id="dlen">
-            2.60
-        </span>
 
-        <br>
+        <!-- dL1 -->
 
-        <span class="badge">
-            dl1
-        </span>
+        <span class="badge">dL₁</span>
 
         =
 
         <span id="dl1val">
-            dx aₓ + dy aᵧ
+            dx × dy × dz
         </span>
 
         <br>
 
-        <span class="badge">
-            dl2
-        </span>
+        <div class="formula">
+            Value =
+            <span id="dl1num">3.375</span>
+        </div>
 
-        =
+        <br>
 
-        <span id="dl2val">
-            dy aᵧ + dz a𝓏
-        </span>
+
+        <!-- dL2 -->
+
+        <span class="badge">dL₂</span>
+
+        = Differential Surface Elements
+
+        <br>
+
+        <div class="formula">
+            <span id="dsxval">
+                dSₓ = dy × dz aₓ
+            </span>
+        </div>
+
+        <div class="formula">
+            <span id="dsyval">
+                dSᵧ = dz × dx aᵧ
+            </span>
+        </div>
+
+        <div class="formula">
+            <span id="dszval">
+                dS_z = dx × dy a_z
+            </span>
+        </div>
 
     </div>
 
 </main>
 
 
-<!-- =========================================================
-     THREE.JS
-========================================================= -->
+<!-- ================= THREE.JS ================= -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -668,25 +567,19 @@ button:hover {
 
 <script>
 
-/* =========================================================
-   SCENE
-========================================================= */
+/* ================= SCENE ================= */
 
 const canvas =
     document.getElementById("threeCanvas");
 
-
 const scene =
     new THREE.Scene();
-
 
 scene.background =
     new THREE.Color(0x101014);
 
 
-/* =========================================================
-   CAMERA
-========================================================= */
+/* ================= CAMERA ================= */
 
 const camera =
     new THREE.PerspectiveCamera(
@@ -696,7 +589,6 @@ const camera =
         1000
     );
 
-
 camera.position.set(
     12,
     10,
@@ -704,9 +596,7 @@ camera.position.set(
 );
 
 
-/* =========================================================
-   RENDERER
-========================================================= */
+/* ================= RENDERER ================= */
 
 const renderer =
     new THREE.WebGLRenderer({
@@ -714,22 +604,18 @@ const renderer =
         antialias: true
     });
 
-
 renderer.setPixelRatio(
     Math.min(devicePixelRatio, 2)
 );
 
 
-/* =========================================================
-   ORBIT CONTROLS
-========================================================= */
+/* ================= ORBIT CONTROLS ================= */
 
 const controls =
     new THREE.OrbitControls(
         camera,
         renderer.domElement
     );
-
 
 controls.enableDamping = true;
 
@@ -740,9 +626,7 @@ controls.target.set(
 );
 
 
-/* =========================================================
-   LIGHTING
-========================================================= */
+/* ================= LIGHTING ================= */
 
 scene.add(
     new THREE.AmbientLight(
@@ -751,13 +635,11 @@ scene.add(
     )
 );
 
-
 const light =
     new THREE.DirectionalLight(
         0xffffff,
         0.8
     );
-
 
 light.position.set(
     8,
@@ -765,13 +647,10 @@ light.position.set(
     10
 );
 
-
 scene.add(light);
 
 
-/* =========================================================
-   AXIS FUNCTION
-========================================================= */
+/* ================= AXIS FUNCTION ================= */
 
 function axis(
     direction,
@@ -779,7 +658,7 @@ function axis(
     color
 ) {
 
-    const arrow =
+    const axisArrow =
         new THREE.ArrowHelper(
 
             new THREE.Vector3(
@@ -799,15 +678,12 @@ function axis(
             0.28
         );
 
-    scene.add(arrow);
+    scene.add(axisArrow);
 
-    return arrow;
 }
 
 
-/* =========================================================
-   AXES
-========================================================= */
+/* ================= AXES ================= */
 
 axis(
     [1,0,0],
@@ -815,13 +691,11 @@ axis(
     0xff4136
 );
 
-
 axis(
     [0,1,0],
     [0,-8,0],
     0x2ecc40
 );
-
 
 axis(
     [0,0,1],
@@ -830,9 +704,7 @@ axis(
 );
 
 
-/* =========================================================
-   GRIDS
-========================================================= */
+/* ================= GRIDS ================= */
 
 const gridXY =
     new THREE.GridHelper(
@@ -841,7 +713,6 @@ const gridXY =
         0x444444,
         0x222222
     );
-
 
 scene.add(gridXY);
 
@@ -856,10 +727,8 @@ const gridXZ =
         0x1d1d1d
     );
 
-
 gridXZ.rotation.x =
     Math.PI / 2;
-
 
 scene.add(gridXZ);
 
@@ -874,17 +743,13 @@ const gridYZ =
         0x1d1d1d
     );
 
-
 gridYZ.rotation.z =
     Math.PI / 2;
-
 
 scene.add(gridYZ);
 
 
-/* =========================================================
-   TEXT LABEL FUNCTION
-========================================================= */
+/* ================= TEXT LABEL FUNCTION ================= */
 
 function label(
     text,
@@ -892,33 +757,26 @@ function label(
     color
 ) {
 
-    const canvas =
+    const labelCanvas =
         document.createElement("canvas");
 
-
-    canvas.width = 256;
-    canvas.height = 128;
-
+    labelCanvas.width = 256;
+    labelCanvas.height = 128;
 
     const ctx =
-        canvas.getContext("2d");
-
+        labelCanvas.getContext("2d");
 
     ctx.font =
         "bold 72px Arial";
 
-
     ctx.fillStyle =
         color;
-
 
     ctx.textAlign =
         "center";
 
-
     ctx.textBaseline =
         "middle";
-
 
     ctx.fillText(
         text,
@@ -926,10 +784,10 @@ function label(
         64
     );
 
-
     const texture =
-        new THREE.CanvasTexture(canvas);
-
+        new THREE.CanvasTexture(
+            labelCanvas
+        );
 
     const sprite =
         new THREE.Sprite(
@@ -941,11 +799,9 @@ function label(
 
         );
 
-
     sprite.position.set(
         ...position
     );
-
 
     sprite.scale.set(
         1.8,
@@ -953,8 +809,8 @@ function label(
         1
     );
 
-
     scene.add(sprite);
+
 }
 
 
@@ -966,13 +822,11 @@ label(
     "#ff4136"
 );
 
-
 label(
     "Y",
     [0,8.5,0],
     "#2ecc40"
 );
-
 
 label(
     "Z",
@@ -981,64 +835,100 @@ label(
 );
 
 
-/* =========================================================
-   DYNAMIC GROUP
-========================================================= */
+/* ================= DYNAMIC GROUP ================= */
 
 let group =
     new THREE.Group();
 
-
 scene.add(group);
 
 
-/* =========================================================
-   CLICK-TO-EDIT POINT P ON THE GRAPH
-========================================================= */
+/* ================= CLICK TO EDIT POINT P ================= */
 
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+const raycaster =
+    new THREE.Raycaster();
 
-canvas.style.cursor = "crosshair";
+const mouse =
+    new THREE.Vector2();
 
-canvas.addEventListener("click", (event) => {
-    const rect = canvas.getBoundingClientRect();
+canvas.style.cursor =
+    "crosshair";
 
-    if (
-        event.clientX < rect.left ||
-        event.clientX > rect.right ||
-        event.clientY < rect.top ||
-        event.clientY > rect.bottom
-    ) {
-        return;
+canvas.addEventListener(
+    "click",
+    (event) => {
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        mouse.x =
+            ((event.clientX - rect.left) /
+            rect.width) * 2 - 1;
+
+        mouse.y =
+            -((event.clientY - rect.top) /
+            rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(
+            mouse,
+            camera
+        );
+
+        const plane =
+            new THREE.Plane(
+                new THREE.Vector3(0,0,1),
+                0
+            );
+
+        const pointOnPlane =
+            new THREE.Vector3();
+
+        raycaster.ray.intersectPlane(
+            plane,
+            pointOnPlane
+        );
+
+        if (pointOnPlane) {
+
+            const newX =
+                Math.max(
+                    -6,
+                    Math.min(
+                        6,
+                        pointOnPlane.x
+                    )
+                );
+
+            const newY =
+                Math.max(
+                    -6,
+                    Math.min(
+                        6,
+                        pointOnPlane.y
+                    )
+                );
+
+            document.getElementById("numX").value =
+                newX.toFixed(1);
+
+            document.getElementById("rangeX").value =
+                newX.toFixed(1);
+
+            document.getElementById("numY").value =
+                newY.toFixed(1);
+
+            document.getElementById("rangeY").value =
+                newY.toFixed(1);
+
+            update();
+
+        }
+
     }
-
-    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-
-    const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-    const pointOnPlane = new THREE.Vector3();
-    raycaster.ray.intersectPlane(plane, pointOnPlane);
-
-    if (pointOnPlane) {
-        const newX = Math.max(-6, Math.min(6, pointOnPlane.x));
-        const newY = Math.max(-6, Math.min(6, pointOnPlane.y));
-
-        document.getElementById("numX").value = newX.toFixed(1);
-        document.getElementById("rangeX").value = newX.toFixed(1);
-        document.getElementById("numY").value = newY.toFixed(1);
-        document.getElementById("rangeY").value = newY.toFixed(1);
-
-        update();
-    }
-});
+);
 
 
-/* =========================================================
-   ARROW FUNCTION
-========================================================= */
+/* ================= ARROW FUNCTION ================= */
 
 function arrow(
     from,
@@ -1053,20 +943,20 @@ function arrow(
             ...from
         );
 
-
     const t =
         new THREE.Vector3(
             ...to
         );
 
-
     const direction =
         t.clone().sub(f);
 
-    const length = direction.length();
+    const length =
+        direction.length();
 
-    if (length < 0.0001) return; // Skip zero-length arrows
-
+    if (length < 0.0001) {
+        return;
+    }
 
     const a =
         new THREE.ArrowHelper(
@@ -1084,16 +974,14 @@ function arrow(
             width
         );
 
-
     group.add(a);
 
     return a;
+
 }
 
 
-/* =========================================================
-   LINE FUNCTION
-========================================================= */
+/* ================= LINE FUNCTION ================= */
 
 function line(
     a,
@@ -1112,9 +1000,7 @@ function line(
 
         ]);
 
-
     let material;
-
 
     if (dashed) {
 
@@ -1133,9 +1019,7 @@ function line(
 
             });
 
-    }
-
-    else {
+    } else {
 
         material =
             new THREE.LineBasicMaterial({
@@ -1144,28 +1028,24 @@ function line(
 
     }
 
-
     const l =
         new THREE.Line(
             geometry,
             material
         );
 
-
     if (dashed) {
         l.computeLineDistances();
     }
 
-
     group.add(l);
 
     return l;
+
 }
 
 
-/* =========================================================
-   POINT FUNCTION
-========================================================= */
+/* ================= POINT FUNCTION ================= */
 
 function point(
     position,
@@ -1187,43 +1067,38 @@ function point(
 
         );
 
-
     mesh.position.set(
         ...position
     );
 
-
     group.add(mesh);
+
 }
 
 
-/* =========================================================
-   UPDATE GRAPHICS
-========================================================= */
+/* ================= UPDATE GRAPHICS ================= */
 
 function update() {
 
-    /* Read values */
+    /* Point coordinates */
 
     const x =
         +document.getElementById("numX").value || 0;
 
-
     const y =
         +document.getElementById("numY").value || 0;
-
 
     const z =
         +document.getElementById("numZ").value || 0;
 
 
+    /* Differential components */
+
     const dx =
         +document.getElementById("numDX").value || 0;
 
-
     const dy =
         +document.getElementById("numDY").value || 0;
-
 
     const dz =
         +document.getElementById("numDZ").value || 0;
@@ -1234,10 +1109,8 @@ function update() {
     const origin =
         [0,0,0];
 
-
     const P =
         [x,y,z];
-
 
     const P2 =
         [
@@ -1252,9 +1125,7 @@ function update() {
     group.clear();
 
 
-    /* =====================================================
-       VECTOR A
-    ====================================================== */
+    /* ================= VECTOR A ================= */
 
     arrow(
         origin,
@@ -1264,16 +1135,13 @@ function update() {
         0.11
     );
 
-
     point(
         P,
         0xf012be
     );
 
 
-    /* =====================================================
-       DIFFERENTIAL VECTOR dl
-    ====================================================== */
+    /* ================= DIFFERENTIAL VECTOR ================= */
 
     arrow(
         P,
@@ -1283,33 +1151,36 @@ function update() {
         0.1
     );
 
-
     point(
         P2,
         0xff851b
     );
 
 
-    /* =====================================================
-       DIFFERENTIAL COMPONENTS
-    ====================================================== */
+    /* ================= DIFFERENTIAL COMPONENTS ================= */
 
     const PX =
-        [x + dx, y, z];
-
+        [
+            x + dx,
+            y,
+            z
+        ];
 
     const PXY =
-        [x + dx, y + dy, z];
+        [
+            x + dx,
+            y + dy,
+            z
+        ];
 
 
-    /* dx component */
+    /* dx */
 
     line(
         P,
         PX,
         0xff4136
     );
-
 
     arrow(
         P,
@@ -1320,14 +1191,13 @@ function update() {
     );
 
 
-    /* dy component */
+    /* dy */
 
     line(
         PX,
         PXY,
         0x2ecc40
     );
-
 
     arrow(
         PX,
@@ -1338,7 +1208,13 @@ function update() {
     );
 
 
-    /* dz component */
+    /* dz */
+
+    line(
+        PXY,
+        P2,
+        0x0074d9
+    );
 
     arrow(
         PXY,
@@ -1349,9 +1225,7 @@ function update() {
     );
 
 
-    /* =====================================================
-       MAGNITUDES
-    ====================================================== */
+    /* ================= MAGNITUDES ================= */
 
     const A =
         Math.hypot(
@@ -1359,7 +1233,6 @@ function update() {
             y,
             z
         );
-
 
     const DL =
         Math.hypot(
@@ -1369,16 +1242,40 @@ function update() {
         );
 
 
-    /* =====================================================
-       LIVE READOUT
-    ====================================================== */
+    /* ================= dL1 AND dL2 CALCULATIONS ================= */
+
+    /*
+       dL1 = dx dy dz
+    */
+
+    const DL1 =
+        dx * dy * dz;
+
+
+    /*
+       dSx = dy dz ax
+       dSy = dz dx ay
+       dSz = dx dy az
+    */
+
+    const DSX =
+        dy * dz;
+
+    const DSY =
+        dz * dx;
+
+    const DSZ =
+        dx * dy;
+
+
+    /* ================= LIVE READOUT ================= */
 
     document.getElementById("pval").textContent =
         `${x.toFixed(1)}, ${y.toFixed(1)}, ${z.toFixed(1)}`;
 
 
     document.getElementById("ppval").textContent =
-        `${(x+dx).toFixed(1)}, ${(y+dy).toFixed(1)}, ${(z+dz).toFixed(1)}`;
+        `${(x + dx).toFixed(1)}, ${(y + dy).toFixed(1)}, ${(z + dz).toFixed(1)}`;
 
 
     document.getElementById("alen").textContent =
@@ -1388,18 +1285,34 @@ function update() {
     document.getElementById("dlen").textContent =
         DL.toFixed(2);
 
-    // dl1 and dl2 definitions
-    document.getElementById("dl1val").textContent =
-        `${dx.toFixed(2)} aₓ + ${dy.toFixed(2)} aᵧ`;
 
-    document.getElementById("dl2val").textContent =
-        `${dy.toFixed(2)} aᵧ + ${dz.toFixed(2)} a𝓏`;
+    /* ================= dL1 FORMULA ================= */
+
+    document.getElementById("dl1val").textContent =
+        `${dx.toFixed(2)} × ${dy.toFixed(2)} × ${dz.toFixed(2)}`;
+
+
+    document.getElementById("dl1num").textContent =
+        DL1.toFixed(3);
+
+
+    /* ================= dL2 SURFACE FORMULAS ================= */
+
+    document.getElementById("dsxval").textContent =
+        `dSₓ = ${dy.toFixed(2)} × ${dz.toFixed(2)} aₓ = ${DSX.toFixed(2)} aₓ`;
+
+
+    document.getElementById("dsyval").textContent =
+        `dSᵧ = ${dz.toFixed(2)} × ${dx.toFixed(2)} aᵧ = ${DSY.toFixed(2)} aᵧ`;
+
+
+    document.getElementById("dszval").textContent =
+        `dS_z = ${dx.toFixed(2)} × ${dy.toFixed(2)} a_z = ${DSZ.toFixed(2)} a_z`;
+
 }
 
 
-/* =========================================================
-   CONNECT SLIDERS WITH NUMBER INPUTS
-========================================================= */
+/* ================= CONNECT INPUTS ================= */
 
 const pairs = [
 
@@ -1423,7 +1336,6 @@ pairs.forEach(
 
         const range =
             document.getElementById(rangeID);
-
 
         const number =
             document.getElementById(numberID);
@@ -1462,23 +1374,18 @@ pairs.forEach(
 );
 
 
-/* =========================================================
-   RESIZE
-========================================================= */
+/* ================= RESIZE ================= */
 
 function resize() {
 
     const stage =
         document.getElementById("stage");
 
-
     const width =
         stage.clientWidth;
 
-
     const height =
         stage.clientHeight;
-
 
     renderer.setSize(
         width,
@@ -1486,12 +1393,11 @@ function resize() {
         false
     );
 
-
     camera.aspect =
         width / height;
 
-
     camera.updateProjectionMatrix();
+
 }
 
 
@@ -1501,9 +1407,7 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   CAMERA BUTTONS
-========================================================= */
+/* ================= CAMERA BUTTONS ================= */
 
 document
 .getElementById("left")
@@ -1517,6 +1421,7 @@ document
         );
 
         controls.update();
+
     }
 );
 
@@ -1533,13 +1438,12 @@ document
         );
 
         controls.update();
+
     }
 );
 
 
-/* =========================================================
-   TOP VIEW
-========================================================= */
+/* ================= TOP VIEW ================= */
 
 document
 .getElementById("top")
@@ -1560,13 +1464,12 @@ document
         );
 
         controls.update();
+
     }
 );
 
 
-/* =========================================================
-   RESET VIEW
-========================================================= */
+/* ================= RESET VIEW ================= */
 
 document
 .getElementById("reset")
@@ -1587,22 +1490,19 @@ document
         );
 
         controls.update();
+
     }
 );
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+/* ================= INITIALIZE ================= */
 
 resize();
 
 update();
 
 
-/* =========================================================
-   ANIMATION LOOP
-========================================================= */
+/* ================= ANIMATION LOOP ================= */
 
 function animate() {
 
@@ -1610,16 +1510,14 @@ function animate() {
         animate
     );
 
-
     controls.update();
-
 
     renderer.render(
         scene,
         camera
     );
-}
 
+}
 
 animate();
 
