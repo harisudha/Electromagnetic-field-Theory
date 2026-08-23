@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gauss's Law - Interactive Project</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #0b1020;
+        color: #eef2ff;
+        line-height: 1.6;
+    }
+
+    header {
+        padding: 55px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #111a35, #172554);
+        border-bottom: 1px solid #334155;
+    }
+
+    header h1 {
+        font-size: clamp(35px, 6vw, 65px);
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+
+    header p {
+        color: #b9c4df;
+        font-size: 18px;
+    }
+
+    .formula-box {
+        max-width: 900px;
+        margin: 35px auto 0;
+        padding: 25px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid #334155;
+        border-radius: 18px;
+    }
+
+    .formula {
+        font-size: 34px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .constant {
+        color: #aab8d8;
+    }
+
+    .container {
+        width: min(1200px, 92%);
+        margin: auto;
+    }
+
+    section {
+        margin: 45px 0;
+    }
+
+    .section-title {
+        font-size: 30px;
+        margin-bottom: 22px;
+        color: #ffffff;
+    }
+
+    .card {
+        background: #111827;
+        border: 1px solid #26334d;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+    }
+
+    .input-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 9px;
+        color: #dbe5ff;
+    }
+
+    .input-row {
+        display: flex;
+        gap: 8px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid #3b4a68;
+        background: #080d19;
+        color: white;
+        font-size: 17px;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        background: #2563eb;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .result { text-align: center; padding: 40px 20px; }
+    .force-value { font-size: 55px; font-weight: bold; color: #60a5fa; margin: 10px 0; }
+    .nature { display: inline-block; padding: 8px 18px; border-radius: 30px; font-weight: bold; margin-top: 10px; }
+    .attractive { background: #064e3b; color: #6ee7b7; }
+    .repulsive { background: #7f1d1d; color: #fca5a5; }
+    .solution { font-size: 17px; }
+    .step { padding: 20px; margin: 15px 0; background: #0b1222; border-left: 4px solid #3b82f6; border-radius: 8px; }
+    .step h3 { color: #60a5fa; margin-bottom: 8px; }
+    .equation { font-family: "Times New Roman", serif; font-size: 22px; margin: 10px 0; color: #f8fafc; overflow-x: auto; }
+    
+    .diagram-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #080d17;
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    canvas {
+        width: 100%;
+        height: 420px;
+        background: #080d17;
+        border-radius: 12px;
+    }
+
+    .graphs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .graph-card {
+        background: #111827;
+        border: 1px solid #26334d;
+        border-radius: 18px;
+        padding: 25px;
+    }
+
+    .relationships {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .relationship {
+        text-align: center;
+        padding: 25px 15px;
+        background: #111827;
+        border: 1px solid #26334d;
+        border-radius: 15px;
+    }
+
+    .relationship strong {
+        display: block;
+        font-size: 26px;
+        color: #60a5fa;
+        margin-bottom: 10px;
+    }
+
+    .explanation {
+        color: #cbd5e1;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        margin-top: 70px;
+        border-top: 1px solid #26334d;
+        color: #94a3b8;
+    }
+
+    @media (max-width: 850px) {
+        .input-grid, .graphs { grid-template-columns: 1fr; }
+        .relationships { grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Gauss's Law</h1>
+    <p>Electric Flux &amp; Gaussian Surfaces — Calculation, Visualization &amp; Graphs</p>
+    <div class="formula-box">
+        <div class="formula">Φ = ∮ E · dA = Q_enc / ε₀</div>
+        <div class="constant">ε₀ = 8.8541878176 × 10⁻¹² C²/(N·m²)</div>
+    </div>
+</header>
+
+<main class="container">
+
+<section>
+    <h2 class="section-title">1. Enter the Values</h2>
+    <div class="card">
+        <div class="input-grid">
+            <div>
+                <label>Enclosed Charge Q_enc</label>
+                <div class="input-row">
+                    <input id="qEnc" type="number" value="5" step="any">
+                    <select id="qEncUnit">
+                        <option value="1">C</option>
+                        <option value="1e-3">mC</option>
+                        <option value="1e-6" selected>μC</option>
+                        <option value="1e-9">nC</option>
+                        <option value="1e-12">pC</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>Gaussian Sphere Radius r</label>
+                <div class="input-row">
+                    <input id="radius" type="number" value="0.5" min="0.000001" step="any">
+                    <select id="radiusUnit">
+                        <option value="1000">km</option>
+                        <option value="1" selected>m</option>
+                        <option value="0.01">cm</option>
+                        <option value="0.001">mm</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button onclick="calculate()">CALCULATE ELECTRIC FLUX</button>
+    </div>
+</section>
+
+<!-- RESULT -->
+<section>
+    <h2 class="section-title">2. Calculated Result</h2>
+    <div class="card result">
+        <p>Net Electric Flux (Φ_E)</p>
+        <div class="force-value" id="fluxResult">—</div>
+        <p id="fluxDetails">Enter values and click Calculate.</p>
+        <div id="nature" class="nature">—</div>
+    </div>
+</section>
+
+<!-- SOLUTION -->
+<section>
+    <h2 class="section-title">3. Step-by-Step Solution</h2>
+    <div class="card solution" id="solution">
+        <p>Enter values above to generate the complete solution.</p>
+    </div>
+</section>
+
+<!-- DYNAMIC CANVAS VISUALIZATION (SOLID ANGLE & SPHERICAL SURFACE S') -->
+<section>
+    <h2 class="section-title">4. Solid Angle &amp; Spherical Surface Visualization (Fig 3.4)</h2>
+    <div class="card">
+        <div class="diagram-container">
+            <canvas id="gaussCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- GRAPHS -->
+<section>
+    <h2 class="section-title">5. Gauss's Law Graphs</h2>
+    <div class="graphs">
+        <div class="graph-card">
+            <h3>Flux vs Enclosed Charge (Φ vs Q)</h3>
+            <p class="explanation">Flux increases linearly with the enclosed charge Q.</p>
+            <div class="graph-legend"><strong id="qGraphValue">Live point: —</strong></div>
+            <canvas id="fluxQGraph"></canvas>
+        </div>
+
+        <div class="graph-card">
+            <h3>Electric Field vs Radius (E vs r)</h3>
+            <p class="explanation">Electric field obeys the inverse-square law with respect to radius.</p>
+            <div class="graph-legend"><strong id="rGraphValue">Live point: —</strong></div>
+            <canvas id="fieldRGraph"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- RELATIONSHIPS -->
+<section>
+    <h2 class="section-title">6. Important Relationships</h2>
+    <div class="relationships">
+        <div class="relationship">
+            <strong>Φ ∝ Q_enc</strong>
+            <p>Flux depends entirely on the enclosed charge.</p>
+        </div>
+        <div class="relationship">
+            <strong>Φ ∡ Shape</strong>
+            <p>Flux is independent of Gaussian surface geometry.</p>
+        </div>
+        <div class="relationship">
+            <strong>E ∝ 1/r²</strong>
+            <p>Field intensity drops with the square of distance.</p>
+        </div>
+        <div class="relationship">
+            <strong>Q_ext = 0 Flux</strong>
+            <p>Charges outside the surface yield net zero flux.</p>
+        </div>
+    </div>
+</section>
+
+<!-- THEORY -->
+<section>
+    <h2 class="section-title">7. Theory</h2>
+    <div class="card explanation">
+        <h3>What is Gauss's Law?</h3>
+        <p>
+            Gauss's Law states that the net electric flux passing through any closed surface is equal to 
+            the net charge enclosed by that surface divided by the vacuum permittivity (ε₀).
+        </p>
+        <br>
+        <h3>Integral Form &amp; Solid Angle</h3>
+        <p class="equation">dΩ = (u_r · n̂ ds) / r² = ds' / (r')²</p>
+        <p class="equation">Φ_E = ∮_S E · n̂ ds = Q_enc / ε₀</p>
+        <h3>Where:</h3>
+        <p>Φ_E = total electric flux (N·m²/C or V·m)</p>
+        <p>E = electric field vector (N/C)</p>
+        <p>ds = differential area element on arbitrary surface S</p>
+        <p>ds' = projected differential area element on concentric sphere S' of radius r'</p>
+        <p>Q_enc = net electric charge inside the surface (C)</p>
+        <p>ε₀ = 8.854 × 10⁻¹² C²/(N·m²)</p>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>Gauss's Law — Interactive Physics Project</p>
+    <p>B.Tech Engineering Project</p>
+</footer>
+
+<script>
+const epsilon0 = 8.8541878176e-12;
+
+function formatNumber(value) {
+    if (!isFinite(value)) return "Undefined";
+    if (value === 0) return "0";
+    if (Math.abs(value) >= 100000 || Math.abs(value) < 0.001) {
+        return value.toExponential(4);
+    }
+    return value.toFixed(4).replace(/\.?0+$/, "");
+}
+
+function calculate() {
+    const qInput = parseFloat(document.getElementById("qEnc").value);
+    const rInput = parseFloat(document.getElementById("radius").value);
+    const qUnit = parseFloat(document.getElementById("qEncUnit").value);
+    const rUnit = parseFloat(document.getElementById("radiusUnit").value);
+
+    if (!isFinite(qInput) || !isFinite(rInput)) {
+        alert("Please enter valid numerical values.");
+        return;
+    }
+    if (rInput <= 0) {
+        alert("Radius must be greater than zero.");
+        return;
+    }
+
+    const qEnc = qInput * qUnit;
+    const r = rInput * rUnit;
+
+    const flux = qEnc / epsilon0;
+    const eField = Math.abs(qEnc) / (4 * Math.PI * epsilon0 * r * r);
+
+    const natureElem = document.getElementById("nature");
+    if (qEnc > 0) {
+        natureElem.textContent = "OUTWARD FLUX (+)";
+        natureElem.className = "nature attractive";
+    } else if (qEnc < 0) {
+        natureElem.textContent = "INWARD FLUX (-)";
+        natureElem.className = "nature repulsive";
+    } else {
+        natureElem.textContent = "ZERO NET FLUX";
+        natureElem.className = "nature";
+    }
+
+    document.getElementById("fluxResult").textContent = formatNumber(flux) + " N·m²/C";
+    document.getElementById("fluxDetails").textContent = 
+        "Electric Field at Surface: " + formatNumber(eField) + " N/C | Surface Radius: " + formatNumber(r) + " m";
+
+    const qSci = qEnc.toExponential(4);
+    const rSci = r.toExponential(4);
+
+    document.getElementById("solution").innerHTML = `
+        <div class="step">
+            <h3>Step 1 — Given Values</h3>
+            <p>Q_enc = ${qInput} ${getSelectedText("qEncUnit")}</p>
+            <p>r = ${rInput} ${getSelectedText("radiusUnit")}</p>
+        </div>
+        <div class="step">
+            <h3>Step 2 — Convert to SI Units</h3>
+            <p>Q_enc = ${qSci} C</p>
+            <p>r = ${rSci} m</p>
+        </div>
+        <div class="step">
+            <h3>Step 3 — Apply Gauss's Law with Solid Angle</h3>
+            <p class="equation">∮_S (u_r · n̂ / r²) ds = ∮_S' (u_r · n̂ / (r')²) ds' = 4π</p>
+            <p class="equation">Φ_E = Q_enc / ε₀</p>
+        </div>
+        <div class="step">
+            <h3>Step 4 — Substitute Values</h3>
+            <p class="equation">Φ_E = (${qSci}) / (8.8541878 × 10⁻¹²)</p>
+        </div>
+        <div class="step">
+            <h3>Step 5 — Final Results</h3>
+            <p class="equation">Flux (Φ_E) = ${formatNumber(flux)} N·m²/C</p>
+            <p class="equation">Electric Field (E) = Q / (4πε₀r²) = ${formatNumber(eField)} N/C</p>
+        </div>
+    `;
+
+    drawSolidAngleCanvas(qEnc, r);
+    drawFluxQGraph(qEnc);
+    drawFieldRGraph(qEnc, r);
+}
+
+function getSelectedText(id) {
+    const select = document.getElementById(id);
+    return select.options[select.selectedIndex].text;
+}
+
+/* 2D CANVAS DRAWING FIG 3.4 (Spherical Surface S' for evaluation of solid angle subtended by ds) */
+function drawSolidAngleCanvas(qEnc, rVal) {
+    const canvas = document.getElementById("gaussCanvas");
+    const ratio = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    canvas.width = W * ratio;
+    canvas.height = H * ratio;
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    ctx.clearRect(0, 0, W, H);
+
+    const originX = 140;
+    const originY = H / 2 + 10;
+    const rPrime = 70;
+
+    // Conical beam bounds
+    const angle1 = -0.22;
+    const angle2 = 0.22;
+    const distOuter = 320;
+
+    // Draw Conical Surface Lines
+    ctx.strokeStyle = "rgba(148, 163, 184, 0.4)";
+    ctx.setLineDash([4, 4]);
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(originX + Math.cos(angle1) * distOuter, originY + Math.sin(angle1) * distOuter);
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(originX + Math.cos(angle2) * distOuter, originY + Math.sin(angle2) * distOuter);
+    ctx.stroke();
+
+    // Central Axis Line
+    ctx.beginPath();
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(originX + distOuter + 30, originY);
+    ctx.stroke();
+
+    ctx.setLineDash([]); // Reset dash
+
+    // Inner Sphere S' (centred at O)
+    ctx.strokeStyle = "#60a5fa";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(originX, originY, rPrime, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Radial arrow r'
+    ctx.strokeStyle = "#93c5fd";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(originX, originY);
+    const rPrimeAngle = Math.PI * 0.75;
+    const rPx = originX + Math.cos(rPrimeAngle) * rPrime;
+    const rPy = originY + Math.sin(rPrimeAngle) * rPrime;
+    ctx.lineTo(rPx, rPy);
+    ctx.stroke();
+
+    // Label r'
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "italic 15px Georgia";
+    ctx.fillText("r'", originX + Math.cos(rPrimeAngle) * rPrime * 0.5 - 12, originY + Math.sin(rPrimeAngle) * rPrime * 0.5 + 5);
+
+    // Origin point O
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(originX, originY, 4, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.font = "bold 16px Arial";
+    ctx.fillText("O", originX - 18, originY + 5);
+
+    // Surface S' Label
+    ctx.fillStyle = "#60a5fa";
+    ctx.font = "bold 16px Georgia";
+    ctx.fillText("S'", originX - rPrime - 18, originY - 15);
+
+    // Surface S Label (Outer irregular boundary)
+    ctx.fillStyle = "#facc15";
+    ctx.font = "bold 16px Georgia";
+    ctx.fillText("S", originX - rPrime - 45, originY - 55);
+
+    // Outer arbitrary surface curve S
+    ctx.strokeStyle = "#facc15";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(originX - 10, originY, rPrime + 35, 0.6 * Math.PI, 1.4 * Math.PI);
+    ctx.stroke();
+
+    // ds' Element on S'
+    const ds1X = originX + Math.cos(angle1) * rPrime;
+    const ds1Y = originY + Math.sin(angle1) * rPrime;
+    const ds2X = originX + Math.cos(angle2) * rPrime;
+    const ds2Y = originY + Math.sin(angle2) * rPrime;
+
+    ctx.fillStyle = "rgba(96, 165, 250, 0.4)";
+    ctx.beginPath();
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(ds1X, ds1Y);
+    ctx.arc(originX, originY, rPrime, angle1, angle2);
+    ctx.closePath();
+    ctx.fill();
+
+    // Label ds'
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "14px Georgia";
+    ctx.fillText("ds'", originX + rPrime + 6, originY + 18);
+
+    // Outer Base ds Surface (Base of conical segment)
+    const baseCenterX = originX + 260;
+    const baseCenterY = originY;
+
+    ctx.strokeStyle = "#f8fafc";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(baseCenterX, baseCenterY, 12, 35, -0.15, 0, 2 * Math.PI);
+    ctx.fillStyle = "rgba(248, 250, 252, 0.15)";
+    ctx.fill();
+    ctx.stroke();
+
+    // Normal Vector n̂
+    const normLen = 45;
+    const normEndX = baseCenterX + normLen * Math.cos(-0.15);
+    const normEndY = baseCenterY + normLen * Math.sin(-0.15);
+
+    ctx.strokeStyle = "#ef4444";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(baseCenterX, baseCenterY);
+    ctx.lineTo(normEndX, normEndY);
+    ctx.stroke();
+
+    // Arrowhead for n̂
+    ctx.fillStyle = "#ef4444";
+    ctx.beginPath();
+    ctx.moveTo(normEndX, normEndY);
+    ctx.lineTo(normEndX - 8, normEndY - 5);
+    ctx.lineTo(normEndX - 8, normEndY + 5);
+    ctx.closePath();
+    ctx.fill();
+
+    // Label n̂ and ds
+    ctx.fillStyle = "#ef4444";
+    ctx.font = "bold 16px Georgia";
+    ctx.fillText("n̂", normEndX + 8, normEndY + 4);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "15px Georgia";
+    ctx.fillText("ds", baseCenterX + 5, baseCenterY + 45);
+
+    // Caption matching Fig 3.4
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "14px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(`Fig. 3.4 Spherical surface S', for evaluation of the solid angle subtended by ds (r = ${formatNumber(rVal)} m)`, W / 2, H - 15);
+}
+
+/* GRAPH PREPARATION */
+function prepareGraph(canvas) {
+    const ratio = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    canvas.width = W * ratio;
+    canvas.height = H * ratio;
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    return {ctx, W, H, left: 68, right: 18, top: 26, bottom: 56};
+}
+
+/* FLUX vs CHARGE GRAPH */
+function drawFluxQGraph(currentQ) {
+    const graph = prepareGraph(document.getElementById("fluxQGraph"));
+    const {ctx, W, H, left, right, top, bottom} = graph;
+    const maxQ = Math.max(Math.abs(currentQ) * 2, 1e-6);
+    const plotW = W - left - right;
+    const plotH = H - top - bottom;
+
+    const maxFlux = maxQ / epsilon0;
+
+    // Axes & Lines
+    ctx.strokeStyle = "#26334d";
+    ctx.beginPath();
+    ctx.moveTo(left, top); ctx.lineTo(left, H - bottom); ctx.lineTo(W - right, H - bottom); ctx.stroke();
+
+    ctx.strokeStyle = "#34d399";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(left, H - bottom);
+    ctx.lineTo(left + plotW, top);
+    ctx.stroke();
+
+    const currFlux = currentQ / epsilon0;
+    const curX = left + (Math.abs(currentQ) / maxQ) * plotW;
+    const curY = H - bottom - (Math.abs(currFlux) / maxFlux) * plotH;
+
+    ctx.fillStyle = "#facc15";
+    ctx.beginPath(); ctx.arc(curX, curY, 6, 0, 2 * Math.PI); ctx.fill();
+
+    document.getElementById("qGraphValue").textContent = 
+        "Live Point: Q = " + formatNumber(currentQ) + " C, Φ = " + formatNumber(currFlux) + " N·m²/C";
+}
+
+/* FIELD vs RADIUS GRAPH */
+function drawFieldRGraph(qEnc, currentR) {
+    const graph = prepareGraph(document.getElementById("fieldRGraph"));
+    const {ctx, W, H, left, right, top, bottom} = graph;
+    const maxR = currentR * 3;
+    const plotW = W - left - right;
+    const plotH = H - top - bottom;
+
+    const points = 80;
+    let values = [];
+    for (let i = 1; i <= points; i++) {
+        let r = (maxR * i) / points;
+        let E = Math.abs(qEnc) / (4 * Math.PI * epsilon0 * r * r);
+        values.push({r, E});
+    }
+
+    const maxE = values[0].E;
+
+    ctx.strokeStyle = "#26334d";
+    ctx.beginPath();
+    ctx.moveTo(left, top); ctx.lineTo(left, H - bottom); ctx.lineTo(W - right, H - bottom); ctx.stroke();
+
+    ctx.strokeStyle = "#60a5fa";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    values.forEach((pt, i) => {
+        let x = left + (pt.r / maxR) * plotW;
+        let y = H - bottom - (pt.E / maxE) * plotH;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    const curE = Math.abs(qEnc) / (4 * Math.PI * epsilon0 * currentR * currentR);
+    const curX = left + (currentR / maxR) * plotW;
+    const curY = H - bottom - Math.min(curE / maxE, 1) * plotH;
+
+    ctx.fillStyle = "#facc15";
+    ctx.beginPath(); ctx.arc(curX, curY, 6, 0, 2 * Math.PI); ctx.fill();
+
+    document.getElementById("rGraphValue").textContent = 
+        "Live Point: r = " + formatNumber(currentR) + " m, E = " + formatNumber(curE) + " N/C";
+}
+
+window.onload = function() {
+    calculate();
+};
+</script>
+
+</body>
+</html>
