@@ -13,5 +13,5 @@ Faculty Coordinators
 
 Student Coordinators
 -Ms Prajna Sree Gudivada,  
+-Ms Bramhani Sirimandla,
 -Ms Peyla Navya Dhara Manikanta, 
--Ms Bramhani Sirimandla 
